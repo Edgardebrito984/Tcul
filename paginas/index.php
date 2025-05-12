@@ -232,7 +232,7 @@ $email ="";
                         include('../conecao.php');
 
   
-                        $sql ="SELECT id,origem,destino,data_partida,preco FROM rotas";
+                        $sql ="SELECT id,origem, destino, preco FROM rotas";
                         $result= $conn->query($sql);
 
                         if($result->num_rows > 0){
@@ -247,12 +247,12 @@ $email ="";
                             <h2><?php echo $row['origem'];?></h2>
                             <p><i class="fa-solid fa-arrow-down"></i></p>
                             <h1><?php echo $row['destino']?></h1>
-                            <h1 class="data_partida"><?php echo date('d/m/Y', strtotime($row['data_partida']));?></h1>
+                     
                             <p class="preco">A partir de: <?php echo number_format ($row['preco'],2,',','.');?>kz</p>
 
                             <?php if (isset($_SESSION['email'])){?>
                                <!-- Se o usuário estiver logado, redireciona para detalhes da viagem -->
-                            <button  onclick="window.location.href='detalhes_viagem.php?rota_id=<?php echo $row['id'];?>'">
+                            <button  onclick="window.location.href='consulta.php?rota_id=<?php echo $row['id'];?>'">
                                 Comprar</button>
                              <?php  } else { ?>
                                 <!-- Se não estiver logado abre o modal de login-->

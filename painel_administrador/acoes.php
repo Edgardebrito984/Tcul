@@ -179,6 +179,43 @@ if(isset($_POST['criar_rota'])){
         exit;
     }
 }
+if (isset($_POST['criar_viagem'])) {
+
+    $rota_id = intval($_POST['rota_id']);
+    $data_partida = htmlentities(mysqli_real_escape_string($conn, $_POST['data_partida']));
+    $hora_partida = mysqli_real_escape_string($conn, $_POST['hora_partida']);
+    $hora_chegada = htmlentities(mysqli_real_escape_string($conn, $_POST['hora_chegada']));
+    $autocarro_id = intval($_POST['autocarro_id']);
+
+    // Primeiro: inserir a viagem
+    $insert = "INSERT INTO viagens (rota_id, data_partida, hora_partida, hora_chegada, autocarro_id)
+               VALUES ('$rota_id', '$data_partida', '$hora_partida', '$hora_chegada', '$autocarro_id')";
+
+    if (mysqli_query($conn, $insert)) {
+        // Agora sim: recuperar o ID da viagem criada
+        $viagem_id = $conn->insert_id;
+
+        // Verifica se o ID foi gerado corretamente
+        if ($viagem_id) {
+            for ($i = 1; $i <= 48; $i++) {
+                $stmt = $conn->prepare("INSERT INTO poltronas_viagem (viagem_id, numero) VALUES (?, ?)");
+                $stmt->bind_param("ii", $viagem_id, $i);
+                $stmt->execute();
+            }
+
+            $_SESSION['mensagem'] = 'Viagem criada com sucesso, com poltronas!';
+        } else {
+            $_SESSION['mensagem'] = 'Erro: ID da viagem não foi gerado.';
+        }
+
+        header('LOCATION: tabela_viagens.php');
+        exit;
+    } else {
+        $_SESSION['mensagem'] = 'Erro ao criar a viagem.';
+        header('LOCATION: tabela_viagens.php');
+        exit;
+    }
+}
 
 if(isset($_POST['cadastrar_data'])){
     $data_viagem = htmlentities( mysqli_real_escape_string( $conn, $_POST['data_viagem']));

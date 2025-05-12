@@ -76,7 +76,7 @@ include('../conecao.php')
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
-                        <a class="collapse-item" href="cadastrar_data.php">Datas</a>
+                        <a class="collapse-item" href="Cadastrar_viagem.php">Datas</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Rotas</a>
                         <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
                     </div>

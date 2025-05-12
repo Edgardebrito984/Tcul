@@ -1,6 +1,15 @@
 <?php
-session_start();
+
 include('../conecao.php')
+
+
+?>
+<?php 
+$provincias=[    
+    "Bengo","Benguela","Bié","Cabinda","Cuando cubango","Cuanza Norte", 
+    "Cuanza Sul","Cunene","Huambo", "Huíla","Luanda","Lunda Norte", 
+    "Lunda Sul","Malanje","Moxico","Namibe","Uíge","Zaire"
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +22,7 @@ include('../conecao.php')
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Rotas</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,7 +83,7 @@ include('../conecao.php')
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Datas</a>
-                        <a class="collapse-item" href="cadastrar_rota.php">Rotas</a>
+                        <a class="collapse-item" href="cadastrar_autocarro.php">Rotas</a>
                         <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
                     </div>
                 </div>
@@ -95,7 +104,7 @@ include('../conecao.php')
             <!-- Nav Item - Charts -->
             
 
-            <!-- Nav Item - Motoristas -->
+            <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="tabela-motorista.php">
                     <i class="fas fa-fw fa-table"></i>
@@ -108,12 +117,13 @@ include('../conecao.php')
                     <span>Tabela Autocarro</span></a>
             </li>
 
-
+            
             <li class="nav-item">
                 <a class="nav-link" href="tabela_rota.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tabela Rota</span></a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="tabela_data.php">
                     <i class="fas fa-fw fa-table"></i>
@@ -202,81 +212,158 @@ include('../conecao.php')
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
+               
+                    
+
+
+    
+         <div class="container-fluid">
+         <div class="card shadow mb-4">
+        <div class="table-responsive">
+            <h4>
+                Cadastrar viagem
+                <a href="tabela_rota.php" class="btn btn-danger float-end">voltar</a>
+            </h4>
+            <div class="card-body">
+                <form action="acoes.php" method="POST">
+                   
+            
+
+           
+                    <div class="mb-3">
+                        <label for="">Rota ID</label>
+                        <select name="rota_id" id="rota_id" class="form-control" required>
+                            <option value="">Seleciona a Rota</option>
+                            <?php 
+                            require '../conecao.php';
+
+                            $query ="SELECT id,origem,destino from rotas";
+                            $result= mysqli_query($conn,$query);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option value='{$row['id']}'>{$row['origem']}</option>";
+                            }
+                            ?>
+                            
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Data de partida</label>
+                        <input type="date" name="data_partida" class="form-control" required >
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="">Hora de parida </label>
+                        <input type="TIME" name="hora_partida" class="form-control" required >
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Hora chegada</label>
+                        <input type="time" name="hora_chegada" class="form-control" required >
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Imagem</label>
+                        <input type="file" name="imagem" class="form-control"  >
+                    </div>
+
+                    
+                    <div class="mb-3">
+                        <label for="">Autocarro ID</label>
+                        <select name="autocarro_id" id="autocarro_id" class="form-control" required>
+                            <option value="">Seleciona o Autocaroo</option>
+                            <?php 
+                            require '../conecao.php';
+
+                            $query ="SELECT id,placa from autocarros";
+                            $result= mysqli_query($conn,$query);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option value='{$row['id']}'>{$row['placa']}</option>";
+                            }
+                            ?>
+                            
+                        </select>
+                    </div>
+    
+                
+                    <div class="mb-3">
+                        <button type="submit" name="criar_viagem" class="btn btn-primary">SALVAR</button>
+                        
+                    </div>
+                    </form>
+            
+        </div>
+      
+    </div>
+    
+
+</div>
+</div>
+                    
 
                 
+                   
+   
 
-                    
-                 
-
-                    
-                    <div class="container-fluid">
+                           
+                           
 
 
-<div class="card shadow mb-4">
-        <?php include('mensagem.php');?> 
-    <div class="card-header py-3">
-       
-        <h6 class="m-0 font-weight-bold text-primary">Rotas</h6>
-        <button class="btn btn-primary float-end" >
-            <a href="cadastrar_rota.php" class="btn btn-primary">
-            Cadastrar rota
-        </a>
-        </button>
+            <!-- Footer 
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Edgar De Brito</span>
+                    </div>
+                </div>
+            </footer>-->
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  
-                    <tr>
-                        <th>id</th>
-                        <th>origem</th>
-                        <th>destino</th>
-                        <th>Data_criação</th>
-                        <th>Ações</th>
-                    </tr>
-                   
-                </thead>
-               
-                <tbody>
-                <?php
-                    $sql="SELECT * FROM rotas";
-                    $result = $conn->query($sql);
-                    if($result-> num_rows > 0){
-                    while($row=$result->fetch_assoc()){ 
-                    ?>
-                    <tr>
-                        <td><?= $row['id']?></td>
-                        <td><?= $row['origem']?></td>
-                        <td><?= $row['destino']?></td>
-                      
-                        <td><?= date('d-m-y', strtotime($row['data_criação']))?></td>
-                       
-                        
-                        <td>
-                            <a href="" class="btn btn-secondary btn sm">Visualizar</a>
-                            <a href="motorista-editar.php?id=<?=$row['id']?>" class="btn btn-success btn sm">Editar</a>
-                            <form action="acoes.php" Method="POST" class="d-inline">
-                                <button onclick="return confirm('Tens a certeza que desejas excluir?')" type="submit" name="delete_rota" value="<?= $row['id']?>" class="btn btn-danger btn-sn">
-                                excluir
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                   
-                    
-                </tbody>
-                <?php 
-                    }
-                } else{
-                   
-                    echo' <h5>Nenhum Autocarro encontrado</h5>';
-                }
-                ?>
-            </table>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-</div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>

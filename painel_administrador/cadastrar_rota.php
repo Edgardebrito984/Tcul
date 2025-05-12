@@ -82,7 +82,7 @@ $provincias=[
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
-                        <a class="collapse-item" href="cadastrar_data.php">Datas</a>
+                        <a class="collapse-item" href="Cadastrar_viagem.php">Datas</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Rotas</a>
                         <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
                     </div>
@@ -250,17 +250,7 @@ $provincias=[
                         </select>
                     </div>
                 
-                    <div class="mb-3">
-                        <label for="">Data de partida</label>
-                        <input type="date" name="data_partida" class="form-control" required >
-                    </div>
-                
-
-                    <div class="mb-3">
-                        <label for="">preço</label>
-                        <input type="text" name="preco" class="form-control" required >
-                    </div>
-                
+                   
                     <div class="mb-3">
                         <label for="">Imagem</label>
                         <input type="file" name="imagem" class="form-control"  >

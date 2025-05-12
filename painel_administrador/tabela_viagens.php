@@ -231,9 +231,10 @@ include('../conecao.php')
                   
                     <tr>
                         <th>id</th>
-                        <th>origem</th>
-                        <th>destino</th>
-                        <th>Data_criação</th>
+                        <th>Data De Partida</th>
+                        <th>Hora de parida</th>
+                        <th>Hora de chegada</th>
+                        <th>Data de criação</th>
                         <th>Ações</th>
                     </tr>
                    
@@ -241,16 +242,16 @@ include('../conecao.php')
                
                 <tbody>
                 <?php
-                    $sql="SELECT * FROM rotas";
+                    $sql="SELECT * FROM viagens";
                     $result = $conn->query($sql);
                     if($result-> num_rows > 0){
                     while($row=$result->fetch_assoc()){ 
                     ?>
                     <tr>
                         <td><?= $row['id']?></td>
-                        <td><?= $row['origem']?></td>
-                        <td><?= $row['destino']?></td>
-                      
+                        <td><?= $row['data_partida']?></td>
+                        <td><?= $row['hora_partida']?></td>
+                        <td><?= $row['hora_chegada']?></td>
                         <td><?= date('d-m-y', strtotime($row['data_criação']))?></td>
                        
                         
