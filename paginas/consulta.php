@@ -18,7 +18,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $rota = $result->fetch_assoc();
 
-$autocarro_id = $rota['autocarro_id'];
+
 
 // Buscar as poltronas do autocarro
 $sql_poltronas = "SELECT numero, status FROM poltronas WHERE autocarro_id = ?";
@@ -30,15 +30,15 @@ $result_poltrona = $stmt_poltrona->get_result();
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="PT-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <title>Viagens</title>
 </head>
 <body>
-<div class="bg-white p-6 max-w-5xl mx-auto font-sans">
+<div class="bg-white p-20 max-w-5xl mx-auto font-sans shadow rounded-lg">
   <!-- Barra de busca -->
   <div class="bg-white border rounded-lg shadow p-4 flex flex-wrap items-center gap-4">
     <input type="text" placeholder="Origem" class="border rounded px-4 py-2 w-full sm:w-auto" value="<?php echo htmlspecialchars($rota['origem']);?>">
@@ -71,6 +71,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 while ($viagem = $result->fetch_assoc()) {
+
     $data_viagem = date("d/m/Y", strtotime($viagem['data_partida']));
     $hora_partida = date("H:i", strtotime($viagem['hora_partida']));
     $hora_chegada = date("H:i", strtotime($viagem['hora_chegada']));
@@ -80,8 +81,8 @@ while ($viagem = $result->fetch_assoc()) {
     <div class="border rounded-lg shadow p-4 flex justify-between items-center bg-white mt-4">
       <!-- Esquerda -->
       <div class="w-1/3">
-        <p class="font-semibold text-blue-800">Convencional</p>
-        <p class="text-gray-600">Expresso TCUL</p>
+        <p class="font-semibold text-blue-800">
+        <img src="../imagens/tcul2.png" alt=""></p>
       </div>
 
       <!-- Centro -->
@@ -97,16 +98,15 @@ while ($viagem = $result->fetch_assoc()) {
 
         <a href="consulta2.php?viagem_id=<?php echo $viagem['id']; ?>">
           <button class="mt-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
-            Selecionar
+            Selecionar poltrona
           </button>
         </a>
       </div>
     </div>
 
     <?php
-}
-?>
-
+    }
+  ?>
 
 </body>
 </html>
