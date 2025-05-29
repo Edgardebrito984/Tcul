@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +71,7 @@
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
-                        <a class="collapse-item" href="cadastrar_viagem.php">Datas</a>
+                        <a class="collapse-item" href="cadastrar_viagem.php">Viagem</a>
                         <a class="collapse-item" href="cadastrar_rota.php">Rotas</a>
                         <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
                     </div>
@@ -199,8 +201,16 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
+                    <?php
+include "../conecao.php"; // ou o caminho correto para sua conexão
 
+$sql = "SELECT COUNT(*) AS total_reservas FROM reserva";
+$resultado = $conn->query($sql);
+$dados = $resultado->fetch_assoc();
+$totalReservas = $dados['total_reservas'];
+?>
+
+                    <div class="row">
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -208,8 +218,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                RESERVAS</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalReservas ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -220,14 +230,28 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
+    <?php
+include "../conecao.php";
+
+$sql = "SELECT COUNT(*) AS total FROM autocarros";
+$resultado = $conn->query($sql);
+
+if ($resultado && $resultado->num_rows > 0) {
+    $linha = $resultado->fetch_assoc();
+    $total_autocarros = $linha['total'];
+} else {
+    $total_autocarros = 0;
+}
+?>
+
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Autocarros</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">    <?= $total_autocarros ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -238,16 +262,30 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
+                         <?php
+include "../conecao.php";
+
+$sql = "SELECT COUNT(*) AS total FROM motorista";
+$resultado = $conn->query($sql);
+
+if ($resultado && $resultado->num_rows > 0) {
+    $linha = $resultado->fetch_assoc();
+    $total_motoristas = $linha['total'];
+} else {
+    $total_motoristas = 0;
+}
+?>
+
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Motoristas
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $total_motoristas?></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">

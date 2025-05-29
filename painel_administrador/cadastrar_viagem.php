@@ -82,7 +82,7 @@ $provincias=[
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
-                        <a class="collapse-item" href="Cadastrar_viagem.php">Datas</a>
+                        <a class="collapse-item" href="Cadastrar_viagem.php">Viagem</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Rotas</a>
                         <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
                     </div>
@@ -240,7 +240,7 @@ $provincias=[
                             $query ="SELECT id,origem,destino from rotas";
                             $result= mysqli_query($conn,$query);
                             while($row = mysqli_fetch_assoc($result)){
-                                echo "<option value='{$row['id']}'>{$row['origem']}</option>";
+                                echo "<option value='{$row['id']}'>{$row['origem']}> {$row['destino']}</option>";
                             }
                             ?>
                             

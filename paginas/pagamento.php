@@ -1,3 +1,9 @@
+<?php 
+
+
+$email="";
+?>
+
 <?php
 include("../conecao.php");
 require '../vendor/autoload.php'; // ou inclua manualmente os arquivos do PHPMailer
@@ -67,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         $mail->Body = $mensagem;
 
         $mail->send();
-        echo "<script>alert('Reserva feita com sucesso! Código: $codigo_reserva'); window.location.href='index.php';</script>";
+        $_SESSION['mensagem'] = "Reserva feita com sucesso! Código: $codigo_reserva!";
+        header("Location: index.php");
         exit;
     } catch (Exception $e) {
         echo "<p>Erro ao enviar o e-mail: {$mail->ErrorInfo}</p>";
@@ -110,10 +117,14 @@ if (isset($_POST['viagem_id'])) {
   <meta charset="UTF-8">
   <title>Pagamento</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-6">
-  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4 text-center">Confirmação de Pagamento</h1>
+</head> 
+<?php 
+  include("nav.php");
+  ?>
+<body class="">
+ 
+ <div class="container">
+    <h1 class="titulo">Confirmação de Pagamento</h1>
 
     <p><strong>Origem:</strong> <?= htmlspecialchars($viagem['origem']) ?></p>
     <p><strong>Destino:</strong> <?= htmlspecialchars($viagem['destino']) ?></p>
@@ -122,33 +133,97 @@ if (isset($_POST['viagem_id'])) {
     <p><strong>Hora de chegada:</strong> <?= htmlspecialchars($viagem['hora_chegada']) ?></p>
     <p><strong>Preço por poltrona:</strong> Kz <?= number_format($viagem['preco'], 2, ',', '.') ?></p>
     <p><strong>Poltronas selecionadas:</strong> <?= implode(', ', $poltronas) ?></p>
-    <p class="text-lg mt-2"><strong>Total a pagar:</strong> <span class="text-green-600">Kz <?= number_format($valor_total, 2, ',', '.') ?></span></p>
+    <p class="total"><strong>Total a pagar:</strong> <span class="valor">Kz <?= number_format($valor_total, 2, ',', '.') ?></span></p>
 
+    <form method="post" class="formulario">
+        <input type="hidden" name="viagem_id" value="<?= $viagem_id ?>">
+        <input type="hidden" name="poltronas" value="<?= implode(',', $poltronas) ?>">
+        <input type="hidden" name="valor_total" value="<?= $valor_total ?>">
 
- 
+        <label class="rotulo">
+            <span>Seu email:</span>
+            <input type="email" name="email" required class="campo-texto">
+        </label>
 
+        <button type="submit" class="botao">fazer pagamento</button>
+    </form>
 
+    <div id="resposta" class="resposta"></div>
+</div>
 
-  <form method="post" class="mt-6 space-y-4">
-  <input type="hidden" name="viagem_id" value="<?= $viagem_id ?>">
-  <input type="hidden" name="poltronas" value="<?= implode(',', $poltronas) ?>">
-  <input type="hidden" name="valor_total" value="<?= $valor_total ?>">
+<?php 
+include("footer.php");
+?>
 
-  <label class="block">
-    <span class="text-gray-700">Seu email:</span>
-    <input type="email" name="email" required class="mt-1 block w-full border p-2 rounded">
-  </label>
+<style>
 
-  <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">
-    Simular pagamento
-  </button>
-</form>
+  
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+}
 
+.titulo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-<div id="resposta" class="mt-4 text-sm text-gray-700"></div>
+.total {
+    font-size: 18px;
+    margin-top: 10px;
+}
 
-  </div>
+.valor {
+    color: green;
+    font-weight: bold;
+}
 
+.formulario {
+    margin-top: 24px;
+}
+
+.rotulo {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.campo-texto {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.botao {
+    width: 100%;
+    background-color: #2f9e44;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background-color: #237a36;
+}
+
+.resposta {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #444;
+}
+
+</style>
 
 
 

@@ -20,63 +20,16 @@ $email ="";
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    
+<?php
+                    if (isset($_SESSION['mensagem'])) {
+                    include "sucesso.php";  
+                    }
+    ?>
      
-   <div class="head">
-    
-    <img src="../imagens/tcul2.png" alt="">
-   </div>
-        <header>
-            <nav class="nav-bar">
-               
-                <div class="nav-list">
-                    <ul>
-                        <li class="nav-item" ><a href="# "class="nav-link">Início</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Sobre</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Projectos</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Início</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Sobre</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Projectos</a></li>
-                    </ul>
-                    <?php if(isset($_SESSION['email'])){ ?>
-                        <div>
-                             <?php echo "". $_SESSION['nome'];?>
-                        </div>
-                     <div class="logout-button"> 
-                        <button><a href="logout.php">sair</a></button>
-                    </div>
-                    <?php }else{ ?>
-                    <div class="login-button"> 
-                        
-                        <button id="abrir_modal" href ="login">Entrar</button>
-                      <?php  }?>
-                    </div>
-                   
-                    <?php
-                    include('login_modal.php')
-                    ?>
-                </div>
-                    
-                    <div class="mobile-menu-icon">
-                    <button onclick="menuShow()"><img src="../imagens/menu.png" alt="" height="20px"width="20px"></button>
-                    </div>
-                    </nav>
-                   
-                  
-            
-             <div class="mobile-menu">
-              <ul>
-                        <li class="nav-item" ><a href="# "class="nav-link">Início</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Sobre</a></li>
-                        <li class="nav-item" ><a href="# "class="nav-link">Projectos</a></li>
-                    </ul>
-                    <div class="login-button"> 
-                        <button >Entrar</button>
-                    </div>
-             </div>
-
-         
-         </header>
+          <?php 
+                      
+include("nav.php");                
+      ?>
         
         <div class="container">     
                 <img src="../imagens/novo.jpg" alt="" width=""; height=" ">
@@ -257,56 +210,9 @@ $email ="";
                     <div class=" swiper-slide-button swiper-button-next"></div>
                  </div>
             </div>
-        <footer class="footer">
-            <div class="container-footer">
-                <div class="row">
-                    <div class="footer-col">
-                        <h4> INSTUTUCIONAL</h4>
-                            <ul>
-                                <li><a href="#">A nossa história</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-col">
-                        <h4>SERVIÇOS</h4>
-                            <ul>
-                                <li><a href="#">Urbano</a></li>
-                                <li><a href="#">Fretamento</a></li>
-                                <li><a href="#">Aluguer</a></li>
-                                <li><a href="#">Encomendas</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="footer-col">
-                        <h4>ATENDIMENTO</h4>
-                            <ul>
-                            <li><a href="#">Duvidas frequentes</a></li>
-                                <li><a href="#">Reclamações</a></li>
-                                <li><a href="#">Trabalhe conosco</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-col">
-                         <h4>ENDEREÇO</h4>
-                            <ul>
-                               <li><a href="#">Mutamba</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-col">
-                        <h4>SIGA-NOS NAS REDES SOCIAIS </h4>
-                            <div class="social-links">
-                           <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                           <a href="#"><i class="fa-brands fa-facebook"></i></a> 
-                           <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                           <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                           <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-                           </div>
-
-                    </div>
-                </div>
-            </div>
-        </footer>
+   <?php 
+         include("footer.php");
+      ?>
        
        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="../js/index.js"></script>
@@ -325,7 +231,9 @@ $email ="";
 ul {
   list-style: none;
 }
-
+body{
+  background-color:   #f0f0f0;
+}
 
 header {
   position: sticky;
@@ -544,8 +452,13 @@ header {
   padding: 40px 20px 0;
   max-width: 720px;
   width: 100%;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+ /* box-shadow: 0 0 5px rgba(0,0,0,0.5);*/
   border-radius: 20px;
+
+   background-color: #fff;
+    padding: 30px;
+    
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 .viagens span {
