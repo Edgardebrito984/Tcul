@@ -1,5 +1,7 @@
 <?php
 include '../conecao.php';
+session_start();
+$email ="";
 //setlocale(LC_TIME, 'pt_PT.UTF-8', 'pt_BR.UTF-8', 'Portuguese_Portugal.1252');
 
 // Verifica se foi passado rota_id

@@ -1,4 +1,6 @@
+<?php
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.PHP">
                 <div class="sidebar-brand-icon rotate-n-15">
                     
                     <i class="fas fa-laugh-wink"></i>
@@ -46,7 +48,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.PHP">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -105,6 +107,18 @@
                     <span>Tabela Autocarro</span></a>
             </li>
             
+            
+            <li class="nav-item">
+                <a class="nav-link" href="tabela_rota.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tabela Rota</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="tabela_data.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tabela Data</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -398,58 +412,3 @@ if ($resultado && $resultado->num_rows > 0) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

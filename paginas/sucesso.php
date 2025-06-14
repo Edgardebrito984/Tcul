@@ -2,35 +2,86 @@
 include "../conecao.php";  
 session_start();
 
+
 if (isset($_SESSION['mensagem'])) {
     echo '
-    <div style="text-align: center;">
-        <p id="mensagemTemporaria" style="
-            color: green;
-            background-color: white;
-            border: 1px solid #9a9a9a;
-            border-radius: 4px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            padding: 10px;
-            display: inline-block;
-            max-width: 100%;
-        ">
-            ' . $_SESSION['mensagem'] . '
-        </p>
+    <style>
+        .mensagem-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 9999;
+            max-width: 90%;
+            width: 300px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .mensagem-container .icone {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .mensagem-container h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .mensagem-container p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .mensagem-container button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .mensagem-container button:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+    </style>
+
+    <div class="mensagem-container" id="mensagemPopup">
+        <div class="icone">✔️</div>
+        <h2>Sucesso</h2>
+        <p>' . $_SESSION['mensagem'] . '</p>
+        <button onclick="fecharMensagem()">Ok</button>
     </div>
 
     <script>
-        setTimeout(function() {
-            var mensagem = document.getElementById("mensagemTemporaria");
+        function fecharMensagem() {
+            const mensagem = document.getElementById("mensagemPopup");
             mensagem.style.opacity = "0";
-            mensagem.style.transform = "translateY(-20px)";
-            setTimeout(function() {
-                mensagem.parentElement.remove();
-            }, 800);
-        }, 1500);
+            mensagem.style.transform = "translate(-50%, -60%)";
+            setTimeout(() => mensagem.remove(), 500);
+        }
+
+        // Fecha automaticamente após 3 segundos (opcional)
+        setTimeout(fecharMensagem, 3000);
     </script>
     ';
 
     unset($_SESSION['mensagem']); // limpa a mensagem após exibir
 }
 ?>
+

@@ -3,6 +3,30 @@
 
 $email="";
 ?>
+<?php 
+include("../conecao.php");
+$viagem_id = $_POST['viagem_id'] ?? 0;
+
+// Suponha que você tem o ID da viagem
+$sql = "SELECT 
+            a.placa,
+            a.modelo,
+            m.nome AS nome_motorista
+        FROM viagens v
+        JOIN autocarros a ON v.autocarro_id = a.id
+        JOIN motorista m ON a.motorista_id = m.id
+        WHERE v.id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $viagem_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$dadosAutocarro = $result->fetch_assoc();
+
+
+
+
+?>
 
 <?php
 include("../conecao.php");
@@ -47,10 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         <p>Sua reserva foi confirmada com sucesso!</p>
         <p><strong>Código da reserva:</strong> $codigo_reserva</p>
         <p><strong>Poltronas:</strong> $poltronas_str</p>
+            <h3>Informações do Autocarro</h3>
+    <p><strong>Modelo:</strong> {$dadosAutocarro['modelo']}</p>
+    <p><strong>Placa:</strong> {$dadosAutocarro['placa']}</p>
+    <p><strong>Motorista:</strong> {$dadosAutocarro['nome_motorista']}</p>
+        <p>Dirija-se até a agência do Grafanil bar, para fazer embarbar</p>
         <p><strong>Valor:</strong> Kz $valor_total</p>
         <p>Apresente o seguinte QR Code na hora do embarque:</p>
         <p><img src='$qr_link' alt='QR Code'></p>
-        <p>Dirija-se até a agência do Grafanil bar, para fazer embarbar</p>
+        
+        
     ";
 
     $mail = new PHPMailer(true);
