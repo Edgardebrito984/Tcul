@@ -18,6 +18,8 @@ $email ="";
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <body>
 <?php
                     if (isset($_SESSION['mensagem'])) {
@@ -36,7 +38,7 @@ include("nav.php");
          </div> 
          <div class="container2">
          <h1>Pensando em viajar?</h1>
-            <p>Escolha o destino e compre online a sua passagem de autocarro interprovincial</p>
+            <p>Escolha o seu destino,origem e compre online a sua passagem de autocarro interprovincial!</p>
             </div> 
            <div class="marcar_viagens">
              <div class="viagens">
@@ -76,10 +78,11 @@ include("nav.php");
             </form>
            </div>
            </div>
-            <div class="card-container swiper">
+                 <div class="card-container swiper">
                <h1> <i class="fa-solid fa-bus-simple"></i>  DESTINOS PARA VC</h1>
                    <div class="card-content wrapper">
-                     <div class="card-list swiper-wrapper">
+                     <div class="card-list swiper-wrapper"data-aos="fade-up"
+     data-aos-duration="3000">
                         <div class="card-item swiper-slide">
                             <img src="../imagens/huambo.jpeg" alt="">
                             <h2>Huambo</h2>
@@ -152,11 +155,11 @@ include("nav.php");
             </div>
 
 
-
-            <div class="card-container swiper">
+            <div class="card-container swiper" >
                <h1><i class="fa-solid fa-bus-simple"></i>   OUTROS DESTINOS PARA VOCÊ</h1>
                    <div class="card-content wrapper">
-                     <div class="card-list swiper-wrapper">
+                     <div class="card-list swiper-wrapper" data-aos="fade-up"
+     data-aos-duration="3000">
                         <?php
                         include('../conecao.php');
 
@@ -196,7 +199,11 @@ include("nav.php");
                              }  
                                $conn->close();
                          ?>
-                      
+                      </div>
+                    <div class="swiper-pagination"></div>
+                    <div class=" swiper-slide-button swiper-button-prev"></div>
+                    <div class=" swiper-slide-button swiper-button-next"></div>
+                 </div>
                     <?php
                     include('login_modal.php')
                     ?>
@@ -204,211 +211,449 @@ include("nav.php");
                          
                        
                      
-                </div>
-                    <div class="swiper-pagination"></div>
-                    <div class=" swiper-slide-button swiper-button-prev"></div>
-                    <div class=" swiper-slide-button swiper-button-next"></div>
-                 </div>
+                
             </div>
    <?php 
          include("footer.php");
       ?>
-       
+       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="../js/index.js"></script>
         <style>
 
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-}
-
-ul {
-  list-style: none;
-}
-body{
-  background-color:   #f0f0f0;
-}
-
-  .card-content {
-    margin: 0 10px 40px;
-  }
-
-  .swiper-slide-button {
-    display: none;
-  }
-
-
-/* CONTAINER IMAGEM / SLIDER */
-.container {
-  background-color: red;
-  width:100%;
-  height: 420px;
-}
-
-.container img {
-  width: 100%;
-  height: 100%;
-  margin-bottom: 10px;
-}
-.container2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centraliza verticalmente */
-  align-items: center;     /* Centraliza horizontalmente */
-  text-align: center;
-  
-  
-}
-
-.container2 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.container2 p {
-  font-size: 1.2rem;
-  max-width: 600px;
-}
-
-/* ÁREA DE viagens*/
-.marcar_viagens {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 20px;
-  width: 100%;
-}
-
-.viagens {
-  margin-top: 0;
-  padding: 40px 20px 0;
-  max-width: 720px;
-  width: 100%;
- /* box-shadow: 0 0 5px rgba(0,0,0,0.5);*/
-  border-radius: 20px;
-
-   background-color: #fff;
-    padding: 30px;
+ *{
+    padding: 0;
+    margin: 0;
     
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    
+}
+header{
+    position: sticky;
+    z-index: 999;
+    top: 0;
+    transition: 0.4s;
+}
+.nav-bar{
+    display:flex;
+    justify-content:space-between;
+    padding: 1.5rem 6rem;
+    background-color:rgb(238, 66, 51);
+    height: 10px;      
+}
+.logo{
+    display:flex;
+    align-items: center;
+}
+.log h1{
+    color:#fff;
+}
+.nav-list{
+    display:flex;
+    align-items: center;
+    
+}
+.nav-list ul{
+     display: flex;
+     justify-content: center;
+     list-style: none;
+   
 }
 
-.viagens span {
-  color: black;
-}
-
-.viagens .select-container select,
-.viagens .input-date input {
-  font-weight: 800;
-  color: black;
-  background-color: #EFF6F6;
-  margin-top: 8px;
-  border: none;
-  border-radius: 8px;
-  height: 45px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.viagens .input-date button {
-  margin-top: 20px;
-  background-color: #F49609;
-  width: 90px;
-  height: 40px;
-  font-weight: 800;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.viagens .input-date button:hover {
-  color: white;
-  transition: 0.2s ease;
-}
-
-/* CARDS */
-.card-container h1 {
-  text-align: center;
-  padding-top: 20px;
-  font-weight: 200;
-}
-
-.card-content {
-  max-width: 2500px;
-  padding-top: 40px;
-  margin: 0 70px 55px;
-  overflow: hidden;
-}
-
-.card-list .card-item {
-  background-color: #DE3122;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5px;
-  border-radius: 8px;
-  user-select: none;
-}
-
-.card-item img {
+.nav-list .nav-item{
+    align-items: center;
   width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  padding: 4px;
+    height: 20px;
+    min-width: 100px;;
+    justify-content: space-around;
+ position: relative;
+}
+.nav-list .nav-link{
+    text-decoration: none;
+    
+    color: #EFF6F6;
+    font-size: 18px;
+    padding: 0 10px;
+    font-weight: bold;
+    position: relative;
+    letter-spacing: 0.5px;
+}
+.nav-list .nav-link:after{
+    content:"";
+    position: absolute;
+    background-color: #F49609;
+    
+    height:3px;
+    width:0;
+    left:0;
+    bottom: -10px;
+    transition: 0.1s;
+}
+.nav-list .nav-link:hover{
+     color: #F49609;
+     transition: 0.1s;
+}
+.nav-list .nav-link:hover:after{
+    width:100%;
+   
+}
+.login-button button{
+    border: none;
+    background-color:#F49609;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.card-item h1,
-.card-item h2 {
-  color: white;
+.login-button button a{
+    text-decoration: none;
+    color:#fff;
+    font-weight:500;
 }
-
-.card-item p {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: rgb(251, 255, 44);
-  margin: 14px 0 10px;
+.logout-button{
+    padding: 10px;
 }
-
-.card-item button {
-  font-size: 1.25rem;
-  padding: 10px 35px;
-  font-weight: 500;
-  background-color: #F49609;
-  color: #030728;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s ease;
+.logout-button button{
+    border: none;
+    background-color:#F49609;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+} 
+.logout-button button a{
+    text-decoration: none;
+    color:#fff;
+    font-weight:500;
 }
-
-.card-item button:hover {
-  color: white;
+.head{
+ background-color: #F49609;
+ /*padding-top: 20px;*/
+ padding-bottom: 0px;  
+ padding-left: 40px;
+ padding-right: 20px;
+ height: 100px;
+ text-align: center;
 }
-
-/* Swiper customization */
-.card-content .swiper-pagination-bullet {
-  background: black;
-  width: 15px;
-  height: 15px;
+.head img{
+    height: 90px;
+    border: none;
+    max-width: 100%;
+    overflow: clip;
+    width: 300px;
+    vertical-align: middle;
+    display: inline-block;
+    
 }
+ .mobile-menu-icon{
+    display:none;
+ }
+ .mobile-menu{
+    display:none;
+ }
+ .container{
+    background-color: red;
+    width: 100%;
+    height: 400px
+ }
+ .container img{
+    width: 100%;
+    /*width: 1600PX;*/
+   /* height:400px;*/
+   height: 100%;
+    margin-bottom: 10px;
+ }
 
-.card-content .swiper-slide-button {
-  color: black;
-  margin-top: -50px;
-  transition: 0.2s ease;
-}
+ @media screen and (max-width:730px){
+    .nav-bar{
+        padding: 1.5rem 4rem;
+    }
+    .nav-item{
+        display: none;
+    }
+    .login-button{
+        display:none;
+    }
+    .mobile-menu-icon{
+        display:block;
+    }
+    .mobile-menu-icon button{
+        background-color: transparent;
+        border:none;
+        cursor:pointer;
+    }
+    .mobile-menu ul{
+        display: flex;
+        flex-direction: column;
+        text-align:center;
+        padding-bottom: 1rem;
+    }
+    .mobile-menu .nav-item{
+        display:block;
+        padding-top: 1.2rem;
+    }
+    .mobile-menu .login-button{
+        display: block;
+        padding: 1rem;
+    }
+    .mobile-menu .login-button button{
+        width: 100%;
+    }
+    .container{
+        
+    }
+    .open{
+        display:block;
+    }
+    .card-content{
+        margin 0 10px 40px;
+    }
+    .card-content .swiper-slide-button{
+        display:none;
+    }
+ }
+ 
+ .conteudo{
+    background-color: black;
+ }
+  
+ .container2{
+    text-align:center;
+ }
 
-.card-content .swiper-slide-button:hover {
-  color: white;
-}
+ .marcar_viagens {
+   display:flex;
+    justify-content:center;
+    align-items:center;
+    padding-top:20px;
+    width: 100%; 
+ }
+ .viagens {
+    justify-content:center;
+    align-items:center;
+    padding-top:40px;
+    padding-right:20px;
+    padding-left:20px;
+    margin-top: 0em;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 20px 20px 20px 20px;
+    max-width:720px;
+    width: 100%;  
+ }
+ .viagens span{
+    
+    align-items: center;
+    color:black;
+    
+ }
+ .viagens .select-container select{
+    font-weight: 800;
+    color: black;
+    background-color: #EFF6F6;
+    margin: 08px 0px 0px 0px;
+    border-style: none;
+    border-radius: 8px 8px 8px 8px;
+    max-width: 712px;
+    height:45px;
+    width:100%;
+    cursor:pointer;
+ }
+ .viagens .input-date input{
+    font-weight: 800;
+    color: black;
+    background-color: #EFF6F6;
+    margin: 08px 0px 0px 0px;
+    border-style: none;
+    border-radius: 8px 8px 8px 8px;
+    max-width: 712px;
+    height:45px;
+    cursor:pointer;
+    width:100%;  
+ }
+ .viagens .input-date button{
+    background-color: #F49609;
+    margin-top:20px;
+    text-align:center;
+    width:90px;
+    height:40px;
+    font-weight:800;
+    cursor:pointer;
+    border-radius:5px;
+    border-style:none;
+ }
+ .viagens .input-date button:hover{
+    color: white;
+    transition:0.2s ease;
+ }
+ .card-content {
+    overflow: hidden;
+   max-width: 2500px;
+   padding-top:40px;
+   margin: 0 70px 55px;
+ }
+ .card-container h1{
+    font-weight: 200;
+   text-align:center;
+   padding-top:20px;
+ }
+ .card-list .card-item{
+    background-color: #DE3122;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    user-select:none;
+    padding: 5px;
+    border-radius:8px;
+    
+ }
+ .card-list .card-item img{
+    width: 200px;
+    height:200px;
+    border-radius:50%;
+    border: 3px solid #fff;
+    padding:4px;
+    
+ }
+ 
+ .card-list .card-item p{
+    font-size:1.25rem;
+    color:#e3e3e3;
+    font-weight:500;
+    margin: 14px 0 10px;
+    color:rgb(251, 255, 44);
+ }
+ .card-list .card-item h2 {
+    color:white;
+ }
+ .card-list .card-item h1 {
+    color:white;
+ }
+ .card-list .card-item button{
+    font-size:1.25rem;
+    padding: 10px 35px;
+    color:#030728;
+    border-radius:6px;
+    font-weight:500;
+    border-style:none;
+    background-color: #F49609;
+    cursor: pointer;
+    transition: 0.2 ease;
+ }
+ .card-list .card-item button:hover{
+    color:white;
+    transition: 0.2 ease;
+ }
+ .card-content .swiper-pagination-bullet{
+    background:black;
+    height: 15px;
+    width: 15px;
+ }
+ .card-content .swiper-slide-button{
+    color: black;
+    margin-top:-50px;
+    transition: 0.2s ease;
+ }
+ .card-content .swiper-slide-button:hover{
+    color:white;
+ }
 
+
+ .footer{
+    background-color: #DE3122;
+    padding:70px 0;
+ }
+ ul{
+    list-style: none;
+ }
+ .container-footer{
+    max-width: 1170px;
+    margin:auto;
+ }
+
+ .row{
+    display:flex;
+    flex-wrap: wrap;
+    
+ }
+ .footer-col{
+    width:17%;
+    padding: 0 15px;
+    
+ }
+ .footer-col h4{
+    font-size: 18px;
+    color: white;
+    text-transform: capitalize;
+    margin-bottom: 30px;
+    font-weight:500;
+    position:relative;
+    
+ }
+ /*.footer-col h4::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    background-color: black;
+    height: 2px;
+    box-sizing: border-box;
+    width:50px;
+ }*/
+
+ .footer-col ul li:not(:last-child){
+    margin-bottom: 10px;
+ }
+ .footer-col ul li a{
+    font-size: 16px;
+    text-transform: capitalize;
+    text-decoration:none;
+    font-weight:300;
+    display: block;
+    transition: all 0.3s ease;
+    color: white;
+ }
+ .footer-col ul li a:hover{
+    color: #ffffff;
+    padding-left: 8px;
+ }
+ .footer-col .social-links a{
+    display: inline-block;
+    height:40px;
+    width: 40px;
+    margin: 0 10px 10px 0;
+    text-align:center;
+    line-height:40px;
+    border-radius:50%;
+    color:#ffffff;
+    transition: all 0.5s ease;
+ }
+ .footer-col .social-links a:hover{
+    color: #24262b;
+    background-color:#ffffff;
+ }
+
+ /*footer responsivo*/
+ @media(max-width: 760px){
+    .footer-col{
+
+        width:50%;
+        margin-bottom: 30px;
+
+    }
+ }
+
+ @media(max-width: 574px){
+    .footer-col{
+        width:100%;
+      
+    }
+ }
 
 
         </style>

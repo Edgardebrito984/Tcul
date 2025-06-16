@@ -1,5 +1,5 @@
 <?php
-//session_start();
+
 include('conecao.php');
 
 if(isset($_POST['cadastrar'])){
@@ -10,8 +10,20 @@ if(isset($_POST['cadastrar'])){
     $numero_bilhete = htmlentities(mysqli_real_escape_string($conn, $_POST['numero_bilhete']));
     $password = htmlentities(mysqli_real_escape_string($conn, $_POST['password']));
 
+    // Verificar idade
+$data_nasc = new DateTime($data_nascimento);
+$hoje = new DateTime();
+$idade = $hoje->diff($data_nasc)->y;
+
+if ($idade < 18) {
+    echo "<script>alert('Só é permitido o cadastro de passagieros maiores de 18 anos');</script>";
+    echo "<script>window.open('../paginas/index.php', '_self');</script>";
+    exit();
+}
+
     if(strlen($password) < 8){
         echo "<script>alert('O mínimo de caracteres para a senha é 8! por-favor tente novamente');</script>";
+        echo "<script>window.open('../paginas/index.php','_self');</script>";
         exit();
     }
 
@@ -21,7 +33,7 @@ if(isset($_POST['cadastrar'])){
 
     if(mysqli_num_rows($run_email) > 0){
         echo "<script>alert('O email inserido já foi cadastrado.');</script>";
-        echo "<script>window.open('../paginas/cadastro_modal.php', '_self');</script>";
+        echo "<script>window.open('../paginas/index.php','_self');</script>";
         exit();
     }
 
@@ -32,7 +44,7 @@ if(isset($_POST['cadastrar'])){
 
     if($query){
         echo "<script>alert('$nome, sua conta foi criada com sucesso!');</script>";
-        echo "<script>window.open('../paginas/index.php', '_self');</script>";
+        echo "<script>window.open('../paginas/index.php','_self');</script>";
     } else {
         echo "<script>alert('Erro ao cadastrar.');</script>";
     }
