@@ -75,7 +75,7 @@ include('../conecao.php')
                         <a class="collapse-item" href="Autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Datas</a>
                         <a class="collapse-item" href="cadastrar_rota.php">Rotas</a>
-                        <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
+                        <a class="collapse-item" href="#">Poltronas</a>
                     </div>
                 </div>
             </li>
@@ -179,7 +179,7 @@ include('../conecao.php')
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Edgar De Brito</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars( $adminNome); ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -280,7 +280,7 @@ include('../conecao.php')
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Edgar De Brito</span>
+                        <span>Copyright &copy; <?php echo htmlspecialchars( $adminNome); ?></span>
                     </div>
                 </div>
             </footer>-->

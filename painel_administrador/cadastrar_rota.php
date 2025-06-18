@@ -4,6 +4,18 @@ include('../conecao.php')
 
 
 ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['admin_id'])) {
+    // Não é admin ou sessão expirou
+    header("Location: ../paginas/login.php");
+    exit();
+    
+
+    }
+    $adminNome = $_SESSION['admin_nome'];
+?>
 <?php 
 $provincias=[    
     "Bengo","Benguela","Bié","Cabinda","Cuando cubango","Cuanza Norte", 
@@ -84,7 +96,7 @@ $provincias=[
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Viagem</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Rotas</a>
-                        <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
+                        <a class="collapse-item" href="#">Poltronas</a>
                     </div>
                 </div>
             </li>
@@ -125,9 +137,9 @@ $provincias=[
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="tabela_data.php">
+                <a class="nav-link" href="tabela_reserva.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tabela Data</span></a>
+                    <span>Tabela Reserva</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -193,7 +205,7 @@ $provincias=[
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Edgar De Brito</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars( $adminNome); ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -202,7 +214,7 @@ $provincias=[
                                 aria-labelledby="userDropdown">
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../paginas/logout.php" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -252,28 +264,12 @@ $provincias=[
                 
                    
                     <div class="mb-3">
-                        <label for="">Imagem</label>
-                        <input type="file" name="imagem" class="form-control"  >
+                        <label for="">Preço</label>
+                        <input type="text" name="preco" class="form-control">
                     </div>
 
             
-                    <div class="mb-3">
-                        <label for="">Autocarro ID</label>
-                        <select name="autocarro_id" id="autocarro_id" class="form-control" required>
-                            <option value="">Seleciona o Autocaroo</option>
-                            <?php 
-                            require '../conecao.php';
-
-                            $query ="SELECT id,placa from autocarros";
-                            $result= mysqli_query($conn,$query);
-                            while($row = mysqli_fetch_assoc($result)){
-                                echo "<option value='{$row['id']}'>{$row['placa']}</option>";
-                            }
-                            ?>
-                            
-                        </select>
-                    </div>
-    
+                   
                 
                     <div class="mb-3">
                         <button type="submit" name="criar_rota" class="btn btn-primary">SALVAR</button>
@@ -302,7 +298,7 @@ $provincias=[
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Edgar De Brito</span>
+                        <span>Copyright &copy; <?php echo htmlspecialchars( $adminNome); ?></span>
                     </div>
                 </div>
             </footer>-->

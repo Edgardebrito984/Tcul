@@ -30,15 +30,23 @@ if (isset($_POST['embarcar'])) {
 }
 
 // Buscar reserva
+// Buscar reserva com autocarro
 if (isset($_GET['codigo_reserva'])) {
     $codigo = $_GET['codigo_reserva'];
-    $sql = "SELECT * FROM reserva WHERE codigo_reserva = ?";
+    $sql = "
+    SELECT r.*, a.placa AS nome_autocarro 
+    FROM reserva r
+    JOIN viagens v ON r.viagem_id = v.id
+    JOIN autocarros a ON v.autocarro_id = a.id
+    WHERE r.codigo_reserva = ?";
+    
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $codigo);
     $stmt->execute();
     $resultado = $stmt->get_result();
     $reserva = $resultado->fetch_assoc();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -65,6 +73,8 @@ if (isset($_GET['codigo_reserva'])) {
     <div class="reserva" style="margin-top: 20px;">
         <h3>Dados da Reserva</h3>
         <p><strong>Passageiro:</strong> <?= htmlspecialchars($reserva['nome_passageiro']) ?></p>
+        <p><strong>Autocarro:</strong> <?= htmlspecialchars($reserva['nome_autocarro']) ?></p>
+
         <p><strong>Código:</strong> <?= htmlspecialchars($reserva['codigo_reserva']) ?></p>
         <p><strong>Poltrona:</strong> <?= $reserva['poltronas'] ?></p>
         <p><strong>Estado:</strong> <?= $reserva['status'] ?></p>

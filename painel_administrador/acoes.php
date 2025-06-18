@@ -94,6 +94,8 @@ if(isset($_POST['criar_autocarro'])) {
     $placa = mysqli_real_escape_string($conn, $_POST['placa']);
     $motorista_id = intval($_POST['motorista_id']);
 
+
+ 
     // Verificar se um motorista foi selecionado
     if ($motorista_id <= 0) {
         $_SESSION['mensagem'] = "Erro: Selecione um motorista válido!";
@@ -156,29 +158,44 @@ if(isset($_POST['delete_autocarro'])){
     }
 }
 
-if(isset($_POST['criar_rota'])){
+if (isset($_POST['criar_rota'])) {
 
-    $origem =htmlentities( mysqli_real_escape_string($conn,$_POST['origem']));
-    $destino = mysqli_real_escape_string($conn, $_POST['destino']);
-    $data_partida = htmlentities(mysqli_real_escape_string($conn, $_POST['data_partida']));
-    $preco = mysqli_real_escape_string($conn, $_POST['preco']);
-    $autocarro_id = intval($_POST['autocarro_id']);
+    $origem = htmlentities(mysqli_real_escape_string($conn, $_POST['origem']));
+    $destino = htmlentities(mysqli_real_escape_string($conn, $_POST['destino']));
+    $preco = htmlentities(mysqli_real_escape_string($conn, $_POST['preco']));
+
+    // Verifica se já existe uma rota com a mesma origem e destino
+    $verificar = "SELECT * FROM rotas WHERE origem = '$origem' AND destino = '$destino'";
+    $resultado = mysqli_query($conn, $verificar);
 
 
-    $insert="INSERT INTO rotas (origem, destino,data_partida, preco,autocarro_id)
-    VALUES('$origem','$destino', '$data_partida','$preco','$autocarro_id')";
-
-    mysqli_query($conn, $insert);
-    if(mysqli_affected_rows($conn)>0){
-        $_SESSION['mensagem'] = 'rota criada com sucesso';
-        header('LOCATION: tabela_rota.php');
-        exit;
-    }else{
-        $_SESSION['mensagem']='Erro ao criar rota';
-        header('LOCATION: tabela_rota.php');
+           if (strtolower(trim($origem)) === strtolower(trim($destino))) {
+        $_SESSION['mensagem'] = 'A origem e o destino não podem ser iguais.';
+        header('Location: tabela_rota.php');
         exit;
     }
+
+
+    if (mysqli_num_rows($resultado) > 0) {
+        $_SESSION['mensagem'] = 'Já existe uma rota com essa origem e destino!';
+        header('Location: tabela_rota.php');
+        exit;
+    }
+
+    // Se não existir, insere a nova rota
+    $insert = "INSERT INTO rotas (origem, destino,preco) VALUES ('$origem', '$destino','$preco')";
+    mysqli_query($conn, $insert);
+
+    if (mysqli_affected_rows($conn) > 0) {
+        $_SESSION['mensagem'] = 'Rota criada com sucesso!';
+    } else {
+        $_SESSION['mensagem'] = 'Erro ao criar rota!';
+    }
+
+    header('Location: tabela_rota.php');
+    exit;
 }
+
 if (isset($_POST['criar_viagem'])) {
 
     $rota_id = intval($_POST['rota_id']);
@@ -187,15 +204,21 @@ if (isset($_POST['criar_viagem'])) {
     $hora_chegada = htmlentities(mysqli_real_escape_string($conn, $_POST['hora_chegada']));
     $autocarro_id = intval($_POST['autocarro_id']);
 
-    // Primeiro: inserir a viagem
+    // Verificação: impedir datas passadas
+    $data_atual = date('Y-m-d');
+    if ($data_partida < $data_atual) {
+        $_SESSION['mensagem'] = 'Não é possível cadastrar uma viagem com data passada.';
+        header('Location: tabela_viagens.php');
+        exit;
+    }
+
+    // Inserir a viagem
     $insert = "INSERT INTO viagens (rota_id, data_partida, hora_partida, hora_chegada, autocarro_id)
                VALUES ('$rota_id', '$data_partida', '$hora_partida', '$hora_chegada', '$autocarro_id')";
 
     if (mysqli_query($conn, $insert)) {
-        // Agora sim: recuperar o ID da viagem criada
         $viagem_id = $conn->insert_id;
 
-        // Verifica se o ID foi gerado corretamente
         if ($viagem_id) {
             for ($i = 1; $i <= 48; $i++) {
                 $stmt = $conn->prepare("INSERT INTO poltronas_viagem (viagem_id, numero) VALUES (?, ?)");
@@ -208,11 +231,11 @@ if (isset($_POST['criar_viagem'])) {
             $_SESSION['mensagem'] = 'Erro: ID da viagem não foi gerado.';
         }
 
-        header('LOCATION: tabela_viagens.php');
+        header('Location: tabela_viagens.php');
         exit;
     } else {
         $_SESSION['mensagem'] = 'Erro ao criar a viagem.';
-        header('LOCATION: tabela_viagens.php');
+        header('Location: tabela_viagens.php');
         exit;
     }
 }
@@ -227,11 +250,11 @@ if(isset($_POST['cadastrar_data'])){
     mysqli_query($conn,$insert);
     if(mysqli_affected_rows($conn)>0){
         $_SESSION['mensagem']='Data criada com sucesso';
-        header('Location: tabela_data.php');
+        header('Location: tabela_reserva.php');
         exit;
     }else{
         $_SESSION['mensagem']='Erro ao criar data';
-        header('Location: tabela_data.php');
+        header('Location: tabela_reserva.php');
         exit;
     }
 }

@@ -7,7 +7,7 @@
     },
     "authors": [
         {
-            "name": "Edgar de Brito",
+            "name": "<?php echo htmlspecialchars( $adminNome); ?>",
             "email": "ferraeiraedgar2022r@email.com"
         }
     ],

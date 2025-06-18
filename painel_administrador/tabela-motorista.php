@@ -1,6 +1,18 @@
 <?php
-session_start();
+
 include('../conecao.php')
+?>
+<?php
+session_start();
+
+if (!isset($_SESSION['admin_id'])) {
+    // Não é admin ou sessão expirou
+    header("Location: ../paginas/login.php");
+    exit();
+    
+
+    }
+    $adminNome = $_SESSION['admin_nome'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +86,7 @@ include('../conecao.php')
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Viagem</a>
-                        <a class="collapse-item" href="cadastrar_poltrona.php">Rotas</a>
+                        <a class="collapse-item" href="#">Rotas</a>
                     </div>
                 </div>
             </li>
@@ -115,9 +127,14 @@ include('../conecao.php')
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="tabela_data.php">
+                <a class="nav-link" href="tabela_reserva.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tabela Data</span></a>
+                    <span>Tabela Reserva</span></a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="tabela_viagens.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tabela Viagens</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -183,7 +200,7 @@ include('../conecao.php')
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Edgar De Brito</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars( $adminNome); ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -192,7 +209,7 @@ include('../conecao.php')
                                 aria-labelledby="userDropdown">
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../paginas/logout.php" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -296,7 +313,7 @@ include('../conecao.php')
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Edgar De Brito</span>
+                        <span>Copyright &copy; <?php echo htmlspecialchars( $adminNome); ?></span>
                     </div>
                 </div>
             </footer>-->

@@ -1,6 +1,18 @@
 <?php
-session_start();
+
 include('../conecao.php')
+?>
+<?php
+session_start();
+
+if (!isset($_SESSION['admin_id'])) {
+    // Não é admin ou sessão expirou
+    header("Location: ../paginas/login.php");
+    exit();
+    
+
+    }
+    $adminNome = $_SESSION['admin_nome'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,7 +87,7 @@ include('../conecao.php')
                         <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Viagem</a>
                         <a class="collapse-item" href="cadastrar_rota.php">Rotas</a>
-                        <a class="collapse-item" href="cadastrar_poltrona.php">Poltronas</a>
+                        <a class="collapse-item" href="#">Poltronas</a>
                     </div>
                 </div>
             </li>
@@ -115,9 +127,14 @@ include('../conecao.php')
                     <span>Tabela Rota</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tabela_data.php">
+                <a class="nav-link" href="tabela_reserva.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tabela Data</span></a>
+                    <span>Tabela Reserva</span></a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="tabela_viagens.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tabela Viagens</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -183,7 +200,7 @@ include('../conecao.php')
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Edgar De Brito</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars( $adminNome); ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -192,7 +209,7 @@ include('../conecao.php')
                                 aria-labelledby="userDropdown">
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../paginas/logout.php" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -217,10 +234,10 @@ include('../conecao.php')
         <?php include('mensagem.php');?> 
     <div class="card-header py-3">
        
-        <h6 class="m-0 font-weight-bold text-primary">Rotas</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Viagens</h6>
         <button class="btn btn-primary float-end" >
-            <a href="cadastrar_rota.php" class="btn btn-primary">
-            Cadastrar rota
+            <a href="cadastrar_viagem.php" class="btn btn-primary">
+            Cadastrar Viagem
         </a>
         </button>
     </div>
@@ -252,7 +269,7 @@ include('../conecao.php')
                         <td><?= $row['data_partida']?></td>
                         <td><?= $row['hora_partida']?></td>
                         <td><?= $row['hora_chegada']?></td>
-                        <td><?= date('d-m-y', strtotime($row['data_criação']))?></td>
+                        <td><?= date('d-m-y', strtotime($row['data_criacao']))?></td>
                        
                         
                         <td>

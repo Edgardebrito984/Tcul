@@ -7,8 +7,7 @@ $email ="";
 // Verifica se foi passado rota_id
 if (!isset($_GET['rota_id'])) {
     die("Rota não especificada.");
-    
-    
+      
 }
 
 $rota_id = $_GET['rota_id'];

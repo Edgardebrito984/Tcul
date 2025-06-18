@@ -14,6 +14,10 @@ $email ="";
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 />
+ <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
    <title>Tcul</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -37,49 +41,65 @@ include("nav.php");
 
          </div> 
          <div class="container2">
-         <h1>Pensando em viajar?</h1>
-            <p>Escolha o seu destino,origem e compre online a sua passagem de autocarro interprovincial!</p>
+         <h1 class="animate__animated  animate__bounce ">Pensando em viajar?</h1>
+            <p class="animate__animated animate__fadeIn">Escolha o seu destino,origem e compre online a sua passagem de autocarro interprovincial!</p>
             </div> 
-           <div class="marcar_viagens">
-             <div class="viagens">
-                <?php 
-                include("../conecao.php");
+          <div class="marcar_viagens">
+    <div class="viagens">
+        <?php 
+        include("../conecao.php");
 
-                $sql ="SELECT origem, destino from rotas"
-                ?>
-             <form action="">
-            
-                <input type="radio" value="Somente Ida" required class="tipo_de_viagens">
-                <span>Somente ida</span>
-               
-                <div class="select-container">
-                    <select name="" id="">
-                        <option value="">Origem</option>
-                        <option value="">Luanda</option>
-                        <option value="">Malanje</option>
-                        <option value="">Huila</option>
-                    </select>
-              
-                    <select name="" id="">
-                        <option value="">Destino</option>
-                        <option value="">Luanda</option>
-                        <option value="">Malanje</option>
-                        <option value="">Huila</option>
-                    </select>
-                </div>
-                
-                <div class="input-date">
-                <input type="date" required>
-                
-                <button >Procurar</button>
+        // Buscar origens e destinos distintos da tabela "rotas"
+        $sql = "SELECT DISTINCT origem, destino FROM rotas";
+        $result = mysqli_query($conn, $sql);
+
+        $origens = [];
+        $destinos = [];
+
+        while($row = mysqli_fetch_assoc($result)) {
+            $origens[] = $row['origem'];
+            $destinos[] = $row['destino'];
+        }
+
+        // Remover duplicados (por segurança)
+        $origens = array_unique($origens);
+        $destinos = array_unique($destinos);
+        ?>
+
+        <form action="consulta.php" method="GET">
+            <input type="radio" name="tipo" value="Somente Ida" required class="tipo_de_viagens">
+            <span>Somente ida</span>
+
+            <div class="select-container">
+                <select name="origem" required>
+                    <option value="">Origem</option>
+                    <?php foreach($origens as $origem): ?>
+                        <option value="<?= htmlspecialchars($origem) ?>"><?= htmlspecialchars($origem) ?></option>
+                    <?php endforeach; ?>
+                </select>
+
+                <select name="destino" required>
+                    <option value="">Destino</option>
+                    <?php foreach($destinos as $destino): ?>
+                        <option value="<?= htmlspecialchars($destino) ?>"><?= htmlspecialchars($destino) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-               </div>
+
+            <div class="input-date">
+                <input type="date" name="data" required>
+                <button type="submit">Procurar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
           
             </form>
            </div>
            </div>
                  <div class="card-container swiper">
-               <h1> <i class="fa-solid fa-bus-simple"></i>  DESTINOS PARA VC</h1>
+               <h1> <i class="fa-solid fa-bus-simple"></i>  DESTINOS PARA VOCÊ</h1>
                    <div class="card-content wrapper">
                      <div class="card-list swiper-wrapper"data-aos="fade-up"
      data-aos-duration="3000">
@@ -424,6 +444,7 @@ header{
   
  .container2{
     text-align:center;
+    padding-top: 40px;
  }
 
  .marcar_viagens {

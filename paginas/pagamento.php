@@ -1,6 +1,4 @@
 <?php 
-
-
 $email="";
 ?>
 <?php 
@@ -47,13 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     $viagem_id = intval($_POST['viagem_id']);
     $poltronas = explode(',', $_POST['poltronas']);
     $valor_total = intval($_POST['valor_total']);
+     $nome_passageiro = $_POST['nome_passageiro'];
     $email = $_POST['email'];
+    
     $codigo_reserva = gerarCodigoReserva();
     $poltronas_str = implode(',', $poltronas);
 
     // Inserir reserva
-    $sql = "INSERT INTO reserva (codigo_reserva, viagem_id, poltronas, email, valor_total, status)
-            VALUES (?, ?, ?, ?, ?, 'confirmada')";
+    $sql = "INSERT INTO reserva (codigo_reserva, viagem_id, poltronas, email, valor_total, nome_passageiro,status)
+            VALUES (?, ?, ?, ?, ?, ?,'confirmada')";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sissd", $codigo_reserva, $viagem_id, $poltronas_str, $email, $valor_total);
     $stmt->execute();
