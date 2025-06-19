@@ -1,6 +1,6 @@
 <?php
 include "../conecao.php";  
-session_start();
+
 
 
 if (isset($_SESSION['mensagem'])) {
@@ -22,11 +22,7 @@ if (isset($_SESSION['mensagem'])) {
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        .mensagem-container .icone {
-            font-size: 50px;
-            color: #4CAF50;
-            margin-bottom: 15px;
-        }
+    
 
         .mensagem-container h2 {
             margin: 0;
@@ -68,17 +64,26 @@ if (isset($_SESSION['mensagem'])) {
         <button onclick="fecharMensagem()">Ok</button>
     </div>
 
-    <script>
-        function fecharMensagem() {
-            const mensagem = document.getElementById("mensagemPopup");
-            mensagem.style.opacity = "0";
-            mensagem.style.transform = "translate(-50%, -60%)";
-            setTimeout(() => mensagem.remove(), 500);
-        }
+   <script>
+    function fecharMensagem() {
+        const mensagem = document.getElementById("mensagemPopup");
+        mensagem.style.opacity = "0";
+        mensagem.style.transform = "translate(-50%, -60%)";
+        setTimeout(() => mensagem.remove(), 500);
+    }
 
-        // Fecha automaticamente após 3 segundos (opcional)
-        setTimeout(fecharMensagem, 3000);
-    </script>
+    // Fecha a mensagem quando clicar em qualquer lugar fora dela
+    document.addEventListener("click", function (e) {
+        const mensagem = document.getElementById("mensagemPopup");
+
+        if (mensagem && !mensagem.contains(e.target)) {
+            fecharMensagem();
+        }
+    });
+
+    // Se quiser também permitir fechar clicando no botão "Ok"
+    // (mantém funcionalidade original)
+</script>
     ';
 
     unset($_SESSION['mensagem']); // limpa a mensagem após exibir

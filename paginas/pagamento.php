@@ -5,7 +5,7 @@ $email="";
 include("../conecao.php");
 $viagem_id = $_POST['viagem_id'] ?? 0;
 
-// Suponha que você tem o ID da viagem
+
 $sql = "SELECT 
             a.placa,
             a.modelo,
@@ -28,7 +28,7 @@ $dadosAutocarro = $result->fetch_assoc();
 
 <?php
 include("../conecao.php");
-require '../vendor/autoload.php'; // ou inclua manualmente os arquivos do PHPMailer
+require '../vendor/autoload.php'; // arquivos do PHPMailer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     $sql = "INSERT INTO reserva (codigo_reserva, viagem_id, poltronas, email, valor_total, nome_passageiro,status)
             VALUES (?, ?, ?, ?, ?, ?,'confirmada')";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sissd", $codigo_reserva, $viagem_id, $poltronas_str, $email, $valor_total);
+    $stmt->bind_param("sissds", $codigo_reserva, $viagem_id, $poltronas_str, $email, $valor_total,$nome_passageiro);
     $stmt->execute();
 
     // Atualizar status das poltronas
@@ -164,8 +164,11 @@ if (isset($_POST['viagem_id'])) {
     <p><strong>Preço por poltrona:</strong> Kz <?= number_format($viagem['preco'], 2, ',', '.') ?></p>
     <p><strong>Poltronas selecionadas:</strong> <?= implode(', ', $poltronas) ?></p>
     <p class="total"><strong>Total a pagar:</strong> <span class="valor">Kz <?= number_format($valor_total, 2, ',', '.') ?></span></p>
-
+    <?php
+$nome_passageiro = $_SESSION['nome'] ?? 'Desconhecido';
+?>
     <form method="post" class="formulario">
+         <input type="hidden" name="nome_passageiro" value="<?= $nome_passageiro ?>">
         <input type="hidden" name="viagem_id" value="<?= $viagem_id ?>">
         <input type="hidden" name="poltronas" value="<?= implode(',', $poltronas) ?>">
         <input type="hidden" name="valor_total" value="<?= $valor_total ?>">
@@ -177,6 +180,7 @@ if (isset($_POST['viagem_id'])) {
 
         <button type="submit" class="botao">fazer pagamento</button>
     </form>
+    <p>Obs: Será enviado um código de confirmação para o seu email</p>
 
     <div id="resposta" class="resposta"></div>
 </div>

@@ -137,7 +137,7 @@ include("nav.php");
                             <p><i class="fa-solid fa-arrow-down"></i></p>
                             <h1>lubango</h1>
                             <p class="preco">A partir de: 4.000kz</p>
-                            <button id="abrir_modal">Comprar</button>
+                            <button class="abrir_modal">Comprar</button>
                         </div>
 
                         <div class="card-item swiper-slide">
@@ -146,7 +146,7 @@ include("nav.php");
                             <p><i class="fa-solid fa-arrow-down"></i></p>
                             <h1>lubango</h1>
                             <p class="preco">A partir de: 4.000kz</p>
-                            <button  id="abrir_modal">Comprar</button>
+                            <button  class="abrir_modal">Comprar</button>
                         </div>
 
                         <div class="card-item swiper-slide">
@@ -155,7 +155,7 @@ include("nav.php");
                             <p><i class="fa-solid fa-arrow-down"></i></p>
                             <h1>lubango</h1>
                             <p class="preco">A partir de: 4.000kz</p>
-                            <button id="abrir_modal">Comprar</button>
+                            <button class="abrir_modal">Comprar</button>
                         </div>
 
                         <div class="card-item swiper-slide">
@@ -164,7 +164,7 @@ include("nav.php");
                             <p><i class="fa-solid fa-arrow-down"></i></p>
                             <h1>lubango</h1>
                             <p class="preco">A partir de: 4.000kz</p>
-                            <button  id="abrir_modal">Comprar</button>
+                            <button  class="abrir_modal" href="login">Comprar</button>
                         </div>
                     </div>
 
@@ -173,7 +173,8 @@ include("nav.php");
                     <div class=" swiper-slide-button swiper-button-next"></div>
                  </div>
             </div>
-
+  
+                  
 
             <div class="card-container swiper" >
                <h1><i class="fa-solid fa-bus-simple"></i>   OUTROS DESTINOS PARA VOCÊ</h1>
@@ -206,7 +207,8 @@ include("nav.php");
                                 Comprar</button>
                              <?php  } else { ?>
                                 <!-- Se não estiver logado abre o modal de login-->
-                                <button  id="abrir_modal" href ="login">Comprar</button>
+                                <button type="button" class="abrir_modal">Comprar</button>
+
                             <?php }?>
                         
                   
@@ -225,7 +227,7 @@ include("nav.php");
                     <div class=" swiper-slide-button swiper-button-next"></div>
                  </div>
                     <?php
-                    include('login_modal.php')
+                    include('login_modal.php');
                     ?>
                          
                          

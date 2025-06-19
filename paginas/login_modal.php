@@ -9,64 +9,54 @@
 </head>
 <body>
 
-<dialog >
-            
-                    <div class="titulo">Log in</div>
-                    <form action="" method="POST">
-                    <div class="user_detalhes">
-                    <div class="input-box">
-                        <span class="detalhes">Email</span>
-                        <input name="email"type="text" placeholder="exemple@gmail.com"required>
-                    </div>
-                    
-                    <div class="input-box">
-                        <span class="detalhes">password</span>
-                        <input name="password" type="password" placeholder="Introduza a palavra passe"required>
-                    </div>
-                    </div>      
-                    <div class="button">
-                    <input name="login" type="submit" value="LOGIN"> 
-                    </div>
-                    <div class="login"> <label for="">Não tem uma conta? <a id="cadastro_modal"href="cadastro_modal.php" >criar conta</a></label>
-                    
-                    </div>
-                    
-                    </form>
-                    </div>
-</dialog>   
+<dialog id="modal-login">
+  <div class="titulo">Log in</div>
+  <form action="" method="POST">
+    <div class="user_detalhes">
+      <div class="input-box">
+        <span class="detalhes">Email</span>
+        <input name="email" type="text" placeholder="exemple@gmail.com" required>
+      </div>
+      <div class="input-box">
+        <span class="detalhes">Password</span>
+        <input name="password" type="password" placeholder="Introduza a palavra passe" required>
+      </div>
+    </div>      
+    <div class="button">
+      <input name="login" type="submit" value="LOGIN"> 
+    </div>
+    <div class="login">
+      <label>Não tem uma conta? <a id="cadastro_modal" href="cadastro_modal.php">criar conta</a></label>
+    </div>
+  </form>
+</dialog>
+
                     <?php
                     include('../scriptlogin.php');
                     ?>
-                    <script>
-                    // Seleciona o botão e o dialog
-                const abrir_modal = document.querySelector("#abrir_modal");
-                const modal = document.querySelector("dialog");
+              <script>
+  const modal = document.getElementById("modal-login");
 
-                // Ao clicar no botão, abre o modal
-                abrir_modal.onclick = function() {
-                    modal.showModal();
-                };
+  // Abre o modal ao clicar em qualquer botão com class .abrir_modal
+  document.querySelectorAll('.abrir_modal').forEach(button => {
+    button.addEventListener('click', () => {
+      modal.showModal();
+    });
+  });
 
-                // (Opcional) Se quiser fechar o modal ao clicar fora dele
-                modal.addEventListener("click", (e) => {
-                    // Se o usuário clicar fora do conteúdo do modal, fecha
-                    const dialogDimensions = modal.getBoundingClientRect();
-                    if (
-                    e.clientX < dialogDimensions.left ||
-                    e.clientX > dialogDimensions.right ||
-                    e.clientY < dialogDimensions.top ||
-                    e.clientY > dialogDimensions.bottom
-                    ) {
-                    modal.close();
-                    }
-                });
-                // Seleciona todos os botões de "Comprar"
-                document.querySelectorAll('.abrir_modal').forEach(button => {
-                button.addEventListener('click', function() {
-                document.querySelector("dialog").showModal();
-    });
-    });
-                </script>
+  // Fechar o modal ao clicar fora do conteúdo
+  modal.addEventListener("click", (e) => {
+    const rect = modal.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX && e.clientX <= rect.left + rect.width
+    );
+    if (!isInDialog) {
+      modal.close();
+    }
+  });
+</script>
+
 
     <style>
         dialog{

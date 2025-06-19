@@ -68,11 +68,14 @@ if (isset($_GET['codigo_reserva'])) {
     <input type="text" name="codigo_reserva" placeholder="Ex: ABC123" required>
     <button type="submit">Pesquisar</button>
 </form>
+<?php 
+$nome_passageiro = $_SESSION['nome'] ?? 'Desconhecido';
+?>
 
 <?php if ($reserva): ?>
     <div class="reserva" style="margin-top: 20px;">
         <h3>Dados da Reserva</h3>
-        <p><strong>Passageiro:</strong> <?= htmlspecialchars($reserva['nome_passageiro']) ?></p>
+        
         <p><strong>Autocarro:</strong> <?= htmlspecialchars($reserva['nome_autocarro']) ?></p>
 
         <p><strong>Código:</strong> <?= htmlspecialchars($reserva['codigo_reserva']) ?></p>

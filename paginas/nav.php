@@ -37,7 +37,7 @@
                     <?php }else{ ?>
                     <div class="login-button"> 
                         
-                        <button id="abrir_modal" href ="login">Entrar</button>
+                        <button class="abrir_modal" href ="login">Entrar</button>
                       <?php  }?>
                     </div>
                    
@@ -111,6 +111,8 @@ header {
 .nav-list {
   display: flex;
   align-items: center;
+  height: 100%;
+  padding-left: 40px;
 }
 
 .nav-list ul {
@@ -256,5 +258,29 @@ header {
 </style>
 
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("modal-login");
+
+  // Pega todos os botões
+  const botoes = document.querySelectorAll(".abrir_modal");
+
+  botoes.forEach(botao => {
+    botao.addEventListener("click", () => {
+      modal.showModal();
+    });
+  });
+
+  // Clica fora para fechar
+  modal?.addEventListener("click", (e) => {
+    const rect = modal.getBoundingClientRect();
+    const isInDialog =
+      rect.top <= e.clientY && e.clientY <= rect.bottom &&
+      rect.left <= e.clientX && e.clientX <= rect.right;
+
+    if (!isInDialog) modal.close();
+  });
+});
+</script>
 </html>
 

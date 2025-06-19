@@ -92,7 +92,7 @@ $result = $stmt->get_result();
       <!-- Direita -->
       <div class="coluna-direita">
         <p class="preco">Kz <?php echo number_format($rota['preco'], 2, ',', '.'); ?></p>
-        <a href="consulta2.php?viagem_id=<?php echo $viagem['id']; ?>">
+        <a href="poltronas.php?viagem_id=<?php echo $viagem['id']; ?>">
           <button class="botao-laranja">Selecionar poltrona</button>
         </a>
       </div>
