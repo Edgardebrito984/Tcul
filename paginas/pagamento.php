@@ -166,9 +166,11 @@ if (isset($_POST['viagem_id'])) {
     <p class="total"><strong>Total a pagar:</strong> <span class="valor">Kz <?= number_format($valor_total, 2, ',', '.') ?></span></p>
     <?php
 $nome_passageiro = $_SESSION['nome'] ?? 'Desconhecido';
+$numero_bilhete = $_SESSION['numero_bilhete'] ?? 'Desconhecido';
 ?>
     <form method="post" class="formulario">
          <input type="hidden" name="nome_passageiro" value="<?= $nome_passageiro ?>">
+          <input type="hidden" name="nome_passageiro" value="<?= $numero_bilhete ?>">
         <input type="hidden" name="viagem_id" value="<?= $viagem_id ?>">
         <input type="hidden" name="poltronas" value="<?= implode(',', $poltronas) ?>">
         <input type="hidden" name="valor_total" value="<?= $valor_total ?>">

@@ -24,6 +24,7 @@ ul{
     text-align: center;
     list-style: none;
     background-color: brown;
+    font-family: 'Times New Roman', Times, serif;
 }
 ul li{
   
@@ -173,6 +174,7 @@ form .button input{
 }
 form .login{
     text-align: center;
+    
     
 }
 @media(max-width: 584px){

@@ -37,7 +37,7 @@ include("nav.php");
       ?>
         
         <div class="container">     
-                <img src="../imagens/banner.jpg" alt="" width=""; height=" ">
+                
 
          </div> 
          <div class="container2">
@@ -229,12 +229,93 @@ include("nav.php");
                     <?php
                     include('login_modal.php');
                     ?>
-                         
-                         
-                       
-                     
-                
-            </div>
+                       </div>
+<div class="faq-container2" >
+
+  <div class="faq-container" >
+  <h1>Perguntas Frequentes</h1>
+
+  <div class="faq-item active">
+    <div class="faq-question" onclick="toggleFAQ(this)">
+      Trocas e Cancelamentos <span class="faq-icon">−</span>
+    </div>
+    <div class="faq-answer">
+    <p> Caso não viaje por algum motivo, deve regularizar a situação da sua passagem no mesmo dia.
+      Não efetuamos trocas de passagem com data vencida, exceto aos casos justificados documentalmente.</p>  
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFAQ(this)">
+      Transporte de animais de estimação <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-answer">
+      <p> O porte do seu cão ou gato deve ser pequeno ou médio com peso de até 10 kg; 
+      estar acomodado em caixa de transporte apropriada ou mesmo uma bolsa de transporte própria para viagens,
+       onde deve abrigar somente 1 animal. 
+       <p> Ele precisa estar totalmente dentro da caixa/bolsa e não poderá ser retirado dela durante a viagem;
+        recomendamos que o seu animal esteja devidamente vacinado e sedado. </p>
+      <p>  Não pode faltar coleira, potes de água e comida (ração suficiente para consumir durante a viagem).
+         Nas paragens do autocarro poderá retirar o seu animal da caixa para que ele se exercite e possa ir ao quarto de banho.</p>
+     
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFAQ(this)">
+      Regras para crianças <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-answer">
+      <p>A criança deverá estar acompanhada dos seus pais ou responsável legal, 
+        com a comprovação pela certidão do nascimento ou BI ou passaporte ou autorização. Oferecemos gratuidade de passagem
+         para criança de 0 até 5 anos,  desde que não ocupe o assento, viajando no colo dos pais ou responsável legal;
+          a partir dos 6 anos paga-se a tarifa normal.</p>
+
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFAQ(this)">
+      Bagagem <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-answer">
+     <p> Os nossos clientes tem o direito de transportar 1 (uma) mala média no porão do
+       autocarro. Se exceder a quantidade ou peso ou dimensão pagará por excesso de bagagem
+        ou de volume adicional. Pesquise as tarifas nos nossos pontos de vendas.</p>
+
+    <p>É proibido o transporte de TV e outros meios como: botija de gás (vazia ou cheia), 
+       gerador, geleira, arca, peças de automóveis/motorizadas, plantas, vasos de cerâmica, 
+      produtos inflamáveis. Se transportar frescos (peixe, carne, marisco, bebida, etc.) deve 
+      colocar em meios apropriados: 
+      caixa térmica ou baú para não danificar as outras bagagens.</p>
+
+      <p>Ao pagar o excesso de bagagem, exija o recibo e certifique que o valor pago consta no recibo/fatura, caso contrário, “denuncie”.</p>
+    </div>
+  </div>
+
+</div>
+    
+</div>
+<script>
+  function toggleFAQ(element) {
+    const item = element.parentElement;
+    const allItems = document.querySelectorAll('.faq-item');
+
+    allItems.forEach(faq => {
+      if (faq !== item) {
+        faq.classList.remove('active');
+        faq.querySelector('.faq-icon').textContent = '+';
+      }
+    });
+
+    item.classList.toggle('active');
+    const icon = element.querySelector('.faq-icon');
+    icon.textContent = item.classList.contains('active') ? '−' : '+';
+  }
+</script>
+
+                       <div class="banner">
+                        </div>
    <?php 
          include("footer.php");
       ?>
@@ -379,17 +460,12 @@ header{
     display:none;
  }
  .container{
-    background-color: red;
+    background: url("../imagens/2banner.jpg") no-repeat center;
+    background-size: cover;
     width: 100%;
-    height: 400px
+    height: 442px;
  }
- .container img{
-    width: 100%;
-    /*width: 1600PX;*/
-   /* height:400px;*/
-   height: 100%;
-    margin-bottom: 10px;
- }
+ 
 
  @media screen and (max-width:730px){
     .nav-bar{
@@ -678,7 +754,86 @@ header{
     }
  }
 
+.perguntas{
+    height: 530px;
+    width: 100%;
+    background-color: #DE3122;
+}
+.perguntas h1{
+    color: white;
+}
 
+.banner{
+    width: 100%;
+    height: 620px;
+    background: url("../imagens/banner2.jpg") no-repeat center;
+    background-size: cover;
+}
+  .faq-container2 {
+   
+    background-color: #DE3122;
+   
+    width: 100%;
+    }
+  .faq-container2 h1{
+    color: white;
+  }
+  .faq-container {
+      max-width: 800px;
+      margin:  auto;
+      padding: 80px;
+
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+  
+    }
+
+    .faq-item {
+        
+      background-color:rgba(253, 187, 4, 0.88);
+      margin-top: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 15px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    p{
+          margin-block-start: 0;
+    margin-block-end: .9rem;
+    text-align: justify;
+    }
+    .faq-answer {
+      display: none;
+      padding: 15px;
+        background-color: #DE3122;
+      font-size: 0.95em;
+      color: #fff;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-icon {
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
         </style>
  </body>
  
