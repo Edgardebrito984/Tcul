@@ -25,8 +25,28 @@ if(isset($_POST['criar_motorista'])) {
             exit;
         }
 }
+if(isset($_POST['actualizar_rota'])) {
+    $rota_id = htmlentities(mysqli_real_escape_string($conn,$_POST['rota_id']));
 
 
+    $origem=htmlentities(mysqli_real_escape_string($conn, $_POST['origem']));
+    $destino=htmlentities(mysqli_real_escape_string($conn, $_POST['destino']));
+    $preco=htmlentities(mysqli_real_escape_string($conn, $_POST['preco']));
+
+    
+    $insert="UPDATE rotas SET origem= '$origem', destino='$destino', preco='$preco'";
+    $insert .=" where id='$rota_id'";
+        mysqli_query($conn,$insert);
+        if(mysqli_affected_rows($conn)>0){
+            $_SESSION['mensagem']='Rota Actualizado com sucesso';
+            header('Location: tabela_rota.php');
+            exit;
+        }else{
+            $_SESSION['mensagem']='Erro ao Actualizar Rota';
+            header('Location: tabela_rota.php');
+            exit;
+        }
+}
 if(isset($_POST['actualizar_motorista'])) {
     $motorista_id = htmlentities(mysqli_real_escape_string($conn,$_POST['motorista_id']));
 
@@ -36,10 +56,7 @@ if(isset($_POST['actualizar_motorista'])) {
     $Contacto=htmlentities(mysqli_real_escape_string($conn, $_POST['Contacto']));
     $email=htmlentities(mysqli_real_escape_string($conn, $_POST['email']));
     
-    
-
     $insert="UPDATE motorista SET Nome= '$Nome', Data_nascimento='$Data_nascimento', Contacto='$Contacto', email='$email'";
-
     $insert .=" where id='$motorista_id'";
         mysqli_query($conn,$insert);
         if(mysqli_affected_rows($conn)>0){
@@ -52,23 +69,80 @@ if(isset($_POST['actualizar_motorista'])) {
             exit;
         }
 }
+if(isset($_POST['actualizar_autocarro'])) {
+    $autocarro_id = htmlentities(mysqli_real_escape_string($conn,$_POST['autocarro_id']));
 
-if(isset($_POST['delete_motorista'])){
-    $motorista_id = htmlentities(mysqli_real_escape_string($conn,$_POST['delete_motorista']));
 
-    $insert="DELETE FROM motorista where id='$motorista_id'";
-    mysqli_query($conn,$insert);
+    $modelo=htmlentities(mysqli_real_escape_string($conn, $_POST['modelo']));
+    $placa=htmlentities(mysqli_real_escape_string($conn, $_POST['placa']));
+    $motorista_id=htmlentities(mysqli_real_escape_string($conn, $_POST['motorista_id']));
 
-    if(mysqli_affected_rows($conn)>0){
-        $_SESSION['mensagem']='Motorista excluido com sucesso com sucesso';
-        header('Location: tabela-motorista.php');
+    
+    // Verifica se o autocarro já possui um motorista atribuído
+    $sql_check_autocarro = "SELECT motorista_id FROM autocarros WHERE id='$autocarro_id'";
+    $result_autocarro = mysqli_query($conn, $sql_check_autocarro);
+    $row_autocarro = mysqli_fetch_assoc($result_autocarro);
+
+    if ($row_autocarro && !is_null($row_autocarro['motorista_id'])) {
+        $_SESSION['mensagem'] = 'Erro: Este autocarro já possui um motorista atribuído. Não é possível trocar.';
+        header('Location: tabela-autocarro.php');
         exit;
-    }else{
-        $_SESSION['mensagem']=' motorista não excluido';
+    }
+
+    // Verifica se o motorista existe
+    $sql_check_motorista = "SELECT id FROM motorista WHERE id='$motorista_id'";
+    $result_motorista = mysqli_query($conn, $sql_check_motorista);
+
+    if (mysqli_num_rows($result_motorista) == 0) {
+        $_SESSION['mensagem'] = 'Erro: O motorista selecionado não existe.';
+        header('Location: tabela-autocarro.php');
+        exit;
+    }
+
+    $insert="UPDATE autocarros SET modelo= '$modelo', placa='$placa', motorista_id='$motorista_id'";
+
+    $insert .=" where id='$autocarro_id'";
+        mysqli_query($conn,$insert);
+        if(mysqli_affected_rows($conn)>0){
+            $_SESSION['mensagem']='Autocarro Actualizado com sucesso';
+            header('Location: tabela-autocarro.php');
+            exit;
+        }else{
+            $_SESSION['mensagem']='Erro ao Actualizar autocarro';
+            header('Location: tabela-autocarro.php');
+            exit;
+        }
+}
+
+if (isset($_POST['delete_motorista'])) {
+    $motorista_id = htmlentities(mysqli_real_escape_string($conn, $_POST['delete_motorista']));
+
+    // Primeiro, checar se há autocarros usando este motorista
+    $sql_check = "SELECT COUNT(*) AS total FROM autocarros WHERE motorista_id='$motorista_id'";
+    $result_check = mysqli_query($conn, $sql_check);
+    $row = mysqli_fetch_assoc($result_check);
+
+    if ($row['total'] > 0) {
+        // Existem autocarros vinculados: não permite excluir
+        $_SESSION['mensagem'] = 'Erro: Não é possível excluir o motorista. Existem autocarros atribuídos a ele.';
         header('Location: tabela-motorista.php');
         exit;
     }
+
+    // Se não tiver autocarros, pode excluir o motorista
+    $delete = "DELETE FROM motorista WHERE id='$motorista_id'";
+    mysqli_query($conn, $delete);
+
+    if (mysqli_affected_rows($conn) > 0) {
+        $_SESSION['mensagem'] = 'Motorista excluído com sucesso.';
+    } else {
+        $_SESSION['mensagem'] = 'Erro: motorista não excluído.';
+    }
+
+    header('Location: tabela-motorista.php');
+    exit;
 }
+
 if(isset($_POST['delete_rota'])){
     $rota_id = htmlentities(mysqli_real_escape_string($conn,$_POST['delete_rota']));
 
@@ -240,24 +314,7 @@ if (isset($_POST['criar_viagem'])) {
     }
 }
 
-if(isset($_POST['cadastrar_data'])){
-    $data_viagem = htmlentities( mysqli_real_escape_string( $conn, $_POST['data_viagem']));
-    $autocarro_id = intval($_POST['autocarro_id']);
 
-    $insert= "INSERT INTO datas_viagens (data_viagem, autocarro_id) 
-    values ('$data_viagem','$autocarro_id')";
-
-    mysqli_query($conn,$insert);
-    if(mysqli_affected_rows($conn)>0){
-        $_SESSION['mensagem']='Data criada com sucesso';
-        header('Location: tabela_reserva.php');
-        exit;
-    }else{
-        $_SESSION['mensagem']='Erro ao criar data';
-        header('Location: tabela_reserva.php');
-        exit;
-    }
-}
 if(isset($_POST['criar_poltronas'])){
 
 include '../conecao.php'; // ou ajuste o caminho da conexão

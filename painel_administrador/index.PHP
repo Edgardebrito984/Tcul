@@ -129,6 +129,11 @@ if (!isset($_SESSION['admin_id'])) {
                     <span>Tabela Reserva</span></a>
             </li>
 
+                <li class="nav-item">
+                <a class="nav-link" href="tabela_viagens.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tabela Viagens</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

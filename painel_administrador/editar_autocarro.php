@@ -25,7 +25,7 @@ if (!isset($_SESSION['admin_id'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Rotas</title>
+    <title>Editar Autocarro</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -84,7 +84,7 @@ if (!isset($_SESSION['admin_id'])) {
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="Motorista.php">Motorista</a>
-                        <a class="collapse-item" href="cadastrar_autocarro.php">Autocarro</a>
+                        <a class="collapse-item" href="Autocarro.php">Autocarro</a>
                         <a class="collapse-item" href="Cadastrar_viagem.php">Viagem</a>
                         <a class="collapse-item" href="cadastrar_rota.php">Rotas</a>
                         <a class="collapse-item" href="#">Poltronas</a>
@@ -107,7 +107,7 @@ if (!isset($_SESSION['admin_id'])) {
             <!-- Nav Item - Charts -->
             
 
-            <!-- Nav Item - Motoristas -->
+            <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="tabela-motorista.php">
                     <i class="fas fa-fw fa-table"></i>
@@ -120,22 +120,18 @@ if (!isset($_SESSION['admin_id'])) {
                     <span>Tabela Autocarro</span></a>
             </li>
 
-
+            
             <li class="nav-item">
                 <a class="nav-link" href="tabela_rota.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tabela Rota</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="tabela_reserva.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tabela Reserva</span></a>
-            </li>
-              <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link" href="tabela_viagens.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tabela Viagens</span></a>
             </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -197,7 +193,7 @@ if (!isset($_SESSION['admin_id'])) {
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                       <li class="nav-item dropdown no-arrow">
+                        <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars( $adminNome); ?></span>
@@ -209,93 +205,91 @@ if (!isset($_SESSION['admin_id'])) {
                                 aria-labelledby="userDropdown">
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../paginas/logout.php"  data-target="#logoutModal">
+                                <a class="dropdown-item" href="../paginas/logout.php" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
                             </div>
                         </li>
 
-
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
+               
+                    
 
+
+    
+         <div class="container-fluid">
+         <div class="card shadow mb-4">
+        <div class="table-responsive">
+            <h4>
+                Editar Autocarro
+                <a href="tabela-autocarro.php" class="btn btn-danger float-end">voltar</a>
+            </h4>
+            <div class="card-body">
+                <?php
+                if(isset($_GET['id'])){
+                    $autocarro_id = mysqli_real_escape_string($conn,$_GET['id']);
+                    $sql="SELECT * FROM autocarros where id='$autocarro_id'";
+                    $result=$conn->query($sql);
+                    if($result->num_rows>0){
+                        $row =$result->fetch_assoc();
+                ?>
+                <form action="acoes.php" method="POST">
+                    <input type="hidden" name="autocarro_id" value="<?= $row['id']?>">
+                    <div class="mb-3">
+                        <label for="">Modelo</label>
+                        <input type="text" name="modelo" class="form-control" value="<?= $row['modelo']?>" >
+                    </div>
+               
+            
+                    <div class="mb-3">
+                        <label for="">Placa</label>
+                        <input name="placa" class="form-control"  value="<?= $row['placa']?>">
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="">Motorista ID</label>
+                      <select name="motorista_id" class="form-control" id="">
+                        <option value="">Selecione um motorista</option>
+                        <?php
+                        require '../conecao.php';
+                         $query= "SELECT id, Nome FROM motorista";
+                         $result = mysqli_query($conn, $query);
+                         while ($row = mysqli_fetch_assoc($result)) {
+                             echo "<option value='{$row['id']}'>{$row['Nome']}</option>";
+                            
+
+                             }
+                        ?>
+                      </select>
+                    </div>
+                
+            
+                   
+    
+                  <input type="hidden" name="autocarro_id" value="<?php echo $autocarro_id; ?>">
+                    <div class="mb-3">
+                        <button type="submit" name="actualizar_autocarro" class="btn btn-primary">SALVAR</button>
+                        
+                    </div>
+                    </form>
+                    <?php
+                   }else{
+                        echo"<h5>Usuario Não encontrado</h5>";
+                   }  
+                }
+                    ?>
                 
 
-                    
-                 
-
-                    
-                    <div class="container-fluid">
-
-
-<div class="card shadow mb-4">
-        <?php include('mensagem.php');?> 
-    <div class="card-header py-3">
-       
-        <h6 class="m-0 font-weight-bold text-primary">Rotas</h6>
-        <button class="btn btn-primary float-end" >
-            <a href="cadastrar_rota.php" class="btn btn-primary">
-            Cadastrar rota
-        </a>
-        </button>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  
-                    <tr>
-                        <th>id</th>
-                        <th>origem</th>
-                        <th>destino</th>
-                        <th>Preço</th>
-                        <th>Data_criação</th>
-                        <th>Ações</th>
-                    </tr>
                    
-                </thead>
-               
-                <tbody>
-                <?php
-                    $sql="SELECT * FROM rotas";
-                    $result = $conn->query($sql);
-                    if($result-> num_rows > 0){
-                    while($row=$result->fetch_assoc()){ 
-                    ?>
-                    <tr>
-                        <td><?= $row['id']?></td>
-                        <td><?= $row['origem']?></td>
-                        <td><?= $row['destino']?></td>
-                        <td><?= $row['preco']?></td>
-                        <td><?= date('d-m-y', strtotime($row['data_criacao']))?></td>
-                       
-                        
-                        <td>
-                            <a href="" class="btn btn-secondary btn sm">Visualizar</a>
-                            <a href="editar_rota.php?id=<?=$row['id']?>" class="btn btn-success btn sm">Editar</a>
-                            <form action="acoes.php" Method="POST" class="d-inline">
-                                <button onclick="return confirm('Tens a certeza que desejas excluir?')" type="submit" name="delete_rota" value="<?= $row['id']?>" class="btn btn-danger btn-sn">
-                                excluir
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                   
-                    
-                </tbody>
-                <?php 
-                    }
-                } else{
-                   
-                    echo' <h5>Nenhum Autocarro encontrado</h5>';
-                }
-                ?>
-            </table>
+            
         </div>
+      
     </div>
-</div>
+    
 
 </div>
+</div>
+          

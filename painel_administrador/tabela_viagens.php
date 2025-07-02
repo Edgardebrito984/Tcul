@@ -248,9 +248,11 @@ if (!isset($_SESSION['admin_id'])) {
                   
                     <tr>
                         <th>id</th>
+                         <th>Rota ID</th>
                         <th>Data De Partida</th>
                         <th>Hora de parida</th>
                         <th>Hora de chegada</th>
+                        <th>Autocarro ID</th>
                         <th>Data de criação</th>
                         <th>Ações</th>
                     </tr>
@@ -266,9 +268,11 @@ if (!isset($_SESSION['admin_id'])) {
                     ?>
                     <tr>
                         <td><?= $row['id']?></td>
+                        <td><?= $row['rota_id']?></td>
                         <td><?= $row['data_partida']?></td>
                         <td><?= $row['hora_partida']?></td>
                         <td><?= $row['hora_chegada']?></td>
+                        <td><?= $row['autocarro_id']?></td>
                         <td><?= date('d-m-y', strtotime($row['data_criacao']))?></td>
                        
                         

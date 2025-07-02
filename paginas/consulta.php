@@ -1,106 +1,113 @@
 <?php
 include '../conecao.php';
 session_start();
-$email ="";
-//setlocale(LC_TIME, 'pt_PT.UTF-8', 'pt_BR.UTF-8', 'Portuguese_Portugal.1252');
 
-// Verifica se foi passado rota_id
-if (!isset($_GET['rota_id'])) {
-    die("Rota não especificada.");
-      
+$rota = null;
+$viagens = [];
+
+// ------------------------------
+// Caso 1: Pesquisa por origem, destino e data
+if (isset($_GET['origem'], $_GET['destino'], $_GET['data'])) {
+    $origem = mysqli_real_escape_string($conn, $_GET['origem']);
+    $destino = mysqli_real_escape_string($conn, $_GET['destino']);
+    $data = $_GET['data'];
+
+    // Buscar a rota
+    $stmt_rota = $conn->prepare("SELECT * FROM rotas WHERE origem = ? AND destino = ?");
+    $stmt_rota->bind_param("ss", $origem, $destino);
+    $stmt_rota->execute();
+    $result_rota = $stmt_rota->get_result();
+
+    if ($result_rota->num_rows > 0) {
+        $rota = $result_rota->fetch_assoc();
+        $rota_id = $rota['id'];
+
+        // Buscar viagens por data
+        $stmt_viagens = $conn->prepare("SELECT * FROM viagens WHERE rota_id = ? AND data_partida = ?");
+        $stmt_viagens->bind_param("is", $rota_id, $data);
+        $stmt_viagens->execute();
+        $viagens = $stmt_viagens->get_result();
+    }
+
+} 
+// ------------------------------
+// Caso 2: Acesso direto com rota_id
+elseif (isset($_GET['rota_id'])) {
+    $rota_id = intval($_GET['rota_id']);
+
+    // Buscar rota
+    $stmt = $conn->prepare("SELECT * FROM rotas WHERE id = ?");
+    $stmt->bind_param("i", $rota_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $rota = $result->fetch_assoc();
+
+    // Buscar viagens dessa rota
+    $stmt_viagens = $conn->prepare("SELECT * FROM viagens WHERE rota_id = ? ORDER BY data_partida ASC");
+    $stmt_viagens->bind_param("i", $rota_id);
+    $stmt_viagens->execute();
+    $viagens = $stmt_viagens->get_result();
+} 
+else {
+    die("Parâmetros inválidos.");
 }
-
-$rota_id = $_GET['rota_id'];
-
-// Buscar dados da rota
-$stmt = $conn->prepare("SELECT * FROM rotas WHERE id = ?");
-$stmt->bind_param("i", $rota_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$rota = $result->fetch_assoc();
-
-
-
-// Buscar as poltronas do autocarro
-$sql_poltronas = "SELECT numero, status FROM poltronas WHERE autocarro_id = ?";
-$stmt_poltrona = $conn->prepare($sql_poltronas);
-$stmt_poltrona->bind_param("i", $autocarro_id);
-$stmt_poltrona->execute();
-$result_poltrona = $stmt_poltrona->get_result();
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="PT-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Viagens</title>
+    <title>Consulta de Viagens</title>
+    <link rel="stylesheet" href="seu-estilo.css"> <!-- Teu CSS -->
 </head>
 <body>
-  <?php 
-  include("nav.php");
-  ?>
+<?php include("nav.php"); ?>
+
 <div class="conteudo-principal">
-  <!-- Barra de busca -->
-  <div class="barra-de-busca">
-    <input type="text" placeholder="Origem" class="campo-texto" value="<?php echo htmlspecialchars($rota['origem']); ?>">
-    <span class="seta">→</span>
-    <input type="text" placeholder="Destino" class="campo-texto" value="<?php echo htmlspecialchars($rota['destino']); ?>">
-    
-  </div>
 
-  <h1> Viagens disponíveis para esta rota:</h1>
-  <!-- Seletor de datas 
-  <div class="seletor-de-datas">
-    <button class="botao-data ativo">07/mai qua</button>
-    <button class="botao-data">08/mai qui</button>
-    <button class="botao-data">09/mai sex</button>
-    <button class="botao-data">10/mai sáb</button>
-    <button class="botao-data">11/mai dom</button>
-  </div>-->
+    <?php if ($rota): ?>
+        <!-- Barra de busca -->
+        <div class="barra-de-busca">
+            <input type="text" class="campo-texto" value="<?= htmlspecialchars($rota['origem']); ?>" readonly>
+            <span class="seta">→</span>
+            <input type="text" class="campo-texto" value="<?= htmlspecialchars($rota['destino']); ?>" readonly>
+            <?php if (isset($data)): ?>
+                <input type="text" class="campo-texto" value="<?= date("d/m/Y", strtotime($data)); ?>" readonly>
+            <?php endif; ?>
+        </div>
 
-  <?php
-$rota_id = $_GET['rota_id']; // ou outro método para capturar a rota
+        <h1>Viagens disponíveis para esta rota:</h1>
 
-$sql = "SELECT * FROM viagens WHERE rota_id = ? ORDER BY data_partida ASC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $rota_id);
-$stmt->execute();
-$result = $stmt->get_result();
+        <?php if ($viagens && $viagens->num_rows > 0): ?>
+            <?php while ($viagem = $viagens->fetch_assoc()): ?>
+                <div class="cartao-viagem">
+                    <div class="coluna-esquerda">
+                        <img src="../imagens/tcul2.png"  clas="empresa">
+                    </div>
+                    <div class="coluna-centro">
+                        <p class="data"><?= date("d/m/Y", strtotime($viagem['data_partida'])); ?></p>
+                        <p class="horas"><?= date("H:i", strtotime($viagem['hora_partida'])); ?> → <?= date("H:i", strtotime($viagem['hora_chegada'])); ?></p>
+                        <p class="rota"><?= htmlspecialchars($rota['origem']); ?> → <?= htmlspecialchars($rota['destino']); ?></p>
+                    </div>
+                    <div class="coluna-direita">
+                        <p class="preco">Kz <?= number_format($rota['preco'], 2, ',', '.'); ?></p>
+                        <a href="poltronas.php?viagem_id=<?= $viagem['id']; ?>">
+                            <button class="botao-laranja">Selecionar poltrona</button>
+                        </a>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p style="color:red; text-align:center;">Nenhuma viagem disponível para esta rota<?php if (isset($data)) echo " na data selecionada"; ?>.</p>
+        <?php endif; ?>
 
+    <?php else: ?>
+        <p style="color:red; text-align:center;">Rota não encontrada.</p>
+    <?php endif; ?>
 
-  while ($viagem = $result->fetch_assoc()) {
-    $data_viagem = date("d/m/Y", strtotime($viagem['data_partida']));
-    $hora_partida = date("H:i", strtotime($viagem['hora_partida']));
-    $hora_chegada = date("H:i", strtotime($viagem['hora_chegada']));
-  ?>
-    <div class="cartao-viagem">
-      <!-- Esquerda -->
-      <div class="coluna-esquerda">
-        <img src="../imagens/tcul2.png" alt="TCUL">
-      </div>
-
-      <!-- Centro -->
-      <div class="coluna-centro">
-        <p class="data"><?php echo $data_viagem; ?></p>
-        <p class="horas"><?php echo $hora_partida; ?> → <?php echo $hora_chegada; ?></p>
-        <p class="rota"><?php echo $rota['origem']; ?> → <?php echo $rota['destino']; ?></p>
-      </div>
-
-      <!-- Direita -->
-      <div class="coluna-direita">
-        <p class="preco">Kz <?php echo number_format($rota['preco'], 2, ',', '.'); ?></p>
-        <a href="poltronas.php?viagem_id=<?php echo $viagem['id']; ?>">
-          <button class="botao-laranja">Selecionar poltrona</button>
-        </a>
-      </div>
-    </div>
-  <?php } ?>
 </div>
-<?php include("footer.php")?>
 
+<?php include("footer.php"); ?>
 
 <style>
 * {
@@ -115,7 +122,17 @@ $result = $stmt->get_result();
 
     
   }
-
+  h1{
+    font-size: 20px;
+    padding: 20px;
+    font-weight: none;
+    text-align: center;
+  }
+.coluna-esquerda img {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
   .conteudo-principal {
     max-width: 700px;
     margin: 20px  auto;

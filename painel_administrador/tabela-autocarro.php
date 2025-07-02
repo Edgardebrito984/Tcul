@@ -274,7 +274,7 @@ if (!isset($_SESSION['admin_id'])) {
                         
                         <td>
                             <a href="" class="btn btn-secondary btn sm">Visualizar</a>
-                            <a href="motorista-editar.php?id=<?=$row['id']?>" class="btn btn-success btn sm">Editar</a>
+                            <a href="editar_autocarro.php?id=<?=$row['id']?>" class="btn btn-success btn sm">Editar</a>
                             <form action="acoes.php" Method="POST" class="d-inline">
                                 <button onclick="return confirm('Tens a certeza que desejas excluir?')" type="submit" name="delete_autocarro" value="<?= $row['id']?>" class="btn btn-danger btn-sn">
                                 excluir

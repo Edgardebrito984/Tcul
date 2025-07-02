@@ -337,128 +337,7 @@ include("nav.php");
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     
 }
-header{
-    position: sticky;
-    z-index: 999;
-    top: 0;
-    transition: 0.4s;
-}
-.nav-bar{
-    display:flex;
-    justify-content:space-between;
-    padding: 1.5rem 6rem;
-    background-color:rgb(238, 66, 51);
-    height: 10px;      
-}
-.logo{
-    display:flex;
-    align-items: center;
-}
-.log h1{
-    color:#fff;
-}
-.nav-list{
-    display:flex;
-    align-items: center;
-    
-}
-.nav-list ul{
-     display: flex;
-     justify-content: center;
-     list-style: none;
-   
-}
 
-.nav-list .nav-item{
-    align-items: center;
-  width: 200px;
-    height: 20px;
-    min-width: 100px;;
-    justify-content: space-around;
- position: relative;
-}
-.nav-list .nav-link{
-    text-decoration: none;
-    
-    color: #EFF6F6;
-    font-size: 18px;
-    padding: 0 10px;
-    font-weight: bold;
-    position: relative;
-    letter-spacing: 0.5px;
-}
-.nav-list .nav-link:after{
-    content:"";
-    position: absolute;
-    background-color: #F49609;
-    
-    height:3px;
-    width:0;
-    left:0;
-    bottom: -10px;
-    transition: 0.1s;
-}
-.nav-list .nav-link:hover{
-     color: #F49609;
-     transition: 0.1s;
-}
-.nav-list .nav-link:hover:after{
-    width:100%;
-   
-}
-.login-button button{
-    border: none;
-    background-color:#F49609;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.login-button button a{
-    text-decoration: none;
-    color:#fff;
-    font-weight:500;
-}
-.logout-button{
-    padding: 10px;
-}
-.logout-button button{
-    border: none;
-    background-color:#F49609;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-} 
-.logout-button button a{
-    text-decoration: none;
-    color:#fff;
-    font-weight:500;
-}
-.head{
- background-color: #F49609;
- /*padding-top: 20px;*/
- padding-bottom: 0px;  
- padding-left: 40px;
- padding-right: 20px;
- height: 100px;
- text-align: center;
-}
-.head img{
-    height: 90px;
-    border: none;
-    max-width: 100%;
-    overflow: clip;
-    width: 300px;
-    vertical-align: middle;
-    display: inline-block;
-    
-}
- .mobile-menu-icon{
-    display:none;
- }
- .mobile-menu{
-    display:none;
- }
  .container{
     background: url("../imagens/2banner.jpg") no-repeat center;
     background-size: cover;
@@ -467,54 +346,7 @@ header{
  }
  
 
- @media screen and (max-width:730px){
-    .nav-bar{
-        padding: 1.5rem 4rem;
-    }
-    .nav-item{
-        display: none;
-    }
-    .login-button{
-        display:none;
-    }
-    .mobile-menu-icon{
-        display:block;
-    }
-    .mobile-menu-icon button{
-        background-color: transparent;
-        border:none;
-        cursor:pointer;
-    }
-    .mobile-menu ul{
-        display: flex;
-        flex-direction: column;
-        text-align:center;
-        padding-bottom: 1rem;
-    }
-    .mobile-menu .nav-item{
-        display:block;
-        padding-top: 1.2rem;
-    }
-    .mobile-menu .login-button{
-        display: block;
-        padding: 1rem;
-    }
-    .mobile-menu .login-button button{
-        width: 100%;
-    }
-    .container{
-        
-    }
-    .open{
-        display:block;
-    }
-    .card-content{
-        margin 0 10px 40px;
-    }
-    .card-content .swiper-slide-button{
-        display:none;
-    }
- }
+
  
  .conteudo{
     background-color: black;
@@ -663,97 +495,6 @@ header{
  }
 
 
- .footer{
-    background-color: #DE3122;
-    padding:70px 0;
- }
- ul{
-    list-style: none;
- }
- .container-footer{
-    max-width: 1170px;
-    margin:auto;
- }
-
- .row{
-    display:flex;
-    flex-wrap: wrap;
-    
- }
- .footer-col{
-    width:17%;
-    padding: 0 15px;
-    
- }
- .footer-col h4{
-    font-size: 18px;
-    color: white;
-    text-transform: capitalize;
-    margin-bottom: 30px;
-    font-weight:500;
-    position:relative;
-    
- }
- /*.footer-col h4::before{
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    background-color: black;
-    height: 2px;
-    box-sizing: border-box;
-    width:50px;
- }*/
-
- .footer-col ul li:not(:last-child){
-    margin-bottom: 10px;
- }
- .footer-col ul li a{
-    font-size: 16px;
-    text-transform: capitalize;
-    text-decoration:none;
-    font-weight:300;
-    display: block;
-    transition: all 0.3s ease;
-    color: white;
- }
- .footer-col ul li a:hover{
-    color: #ffffff;
-    padding-left: 8px;
- }
- .footer-col .social-links a{
-    display: inline-block;
-    height:40px;
-    width: 40px;
-    margin: 0 10px 10px 0;
-    text-align:center;
-    line-height:40px;
-    border-radius:50%;
-    color:#ffffff;
-    transition: all 0.5s ease;
- }
- .footer-col .social-links a:hover{
-    color: #24262b;
-    background-color:#ffffff;
- }
-
- /*footer responsivo*/
- @media(max-width: 760px){
-    .footer-col{
-
-        width:50%;
-        margin-bottom: 30px;
-
-    }
- }
-
- @media(max-width: 574px){
-    .footer-col{
-        width:100%;
-      
-    }
- }
-
 .perguntas{
     height: 530px;
     width: 100%;
@@ -809,7 +550,7 @@ header{
       color: #fff;
     }
 
-    p{
+      .faq-answer  p{
           margin-block-start: 0;
     margin-block-end: .9rem;
     text-align: justify;
